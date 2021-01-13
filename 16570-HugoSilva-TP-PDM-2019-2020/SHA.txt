@@ -1,0 +1,43 @@
+0:37:49: Executing task 'signingReport'...
+
+Executing tasks: [signingReport] in project /home/hugo/Documents/projects/Android/PDM/16570-HugoSilva-TP-PDM-2019-2020
+
+
+> Task :app:signingReport
+Variant: debug
+Config: debug
+Store: /home/hugo/.android/debug.keystore
+Alias: AndroidDebugKey
+MD5: C3:4E:E1:AF:07:1A:04:51:C6:BB:CD:A6:2F:F1:A2:DA
+SHA1: FF:89:61:31:6A:9B:B6:69:9E:9D:10:4D:2B:9C:79:66:24:3E:0C:45
+SHA-256: BA:47:F6:CF:C0:D5:E2:5E:6B:E8:8B:BC:71:D1:4F:9E:7C:68:BC:DE:07:05:FA:67:E8:BF:98:A2:72:67:03:42
+Valid until: Wednesday, October 12, 2050
+----------
+Variant: release
+Config: none
+----------
+Variant: debugAndroidTest
+Config: debug
+Store: /home/hugo/.android/debug.keystore
+Alias: AndroidDebugKey
+MD5: C3:4E:E1:AF:07:1A:04:51:C6:BB:CD:A6:2F:F1:A2:DA
+SHA1: FF:89:61:31:6A:9B:B6:69:9E:9D:10:4D:2B:9C:79:66:24:3E:0C:45
+SHA-256: BA:47:F6:CF:C0:D5:E2:5E:6B:E8:8B:BC:71:D1:4F:9E:7C:68:BC:DE:07:05:FA:67:E8:BF:98:A2:72:67:03:42
+Valid until: Wednesday, October 12, 2050
+----------
+Variant: debugUnitTest
+Config: debug
+Store: /home/hugo/.android/debug.keystore
+Alias: AndroidDebugKey
+MD5: C3:4E:E1:AF:07:1A:04:51:C6:BB:CD:A6:2F:F1:A2:DA
+SHA1: FF:89:61:31:6A:9B:B6:69:9E:9D:10:4D:2B:9C:79:66:24:3E:0C:45
+SHA-256: BA:47:F6:CF:C0:D5:E2:5E:6B:E8:8B:BC:71:D1:4F:9E:7C:68:BC:DE:07:05:FA:67:E8:BF:98:A2:72:67:03:42
+Valid until: Wednesday, October 12, 2050
+----------
+Variant: releaseUnitTest
+Config: none
+----------
+
+BUILD SUCCESSFUL in 67ms
+1 actionable task: 1 executed
+0:37:49: Task execution finished 'signingReport'.

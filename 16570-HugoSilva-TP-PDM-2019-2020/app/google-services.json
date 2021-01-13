@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "318795617565",
+    "project_id": "sports-manager-b23f0",
+    "storage_bucket": "sports-manager-b23f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:318795617565:android:65cf0b959c51a769387df4",
+        "android_client_info": {
+          "package_name": "pt.ipbeja.sportsmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "318795617565-ttm7lp50kkhveg27c9vtmmgurkhbgva7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pt.ipbeja.sportsmanager",
+            "certificate_hash": "ff8961316a9bb6699e9d104d2b9c7966243e0c45"
+          }
+        },
+        {
+          "client_id": "318795617565-s0gggc9ld144668k600ig33l0tlh0ugn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNZWlgSux7ozKXzKWwWIHEIQ31xByljzU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "318795617565-s0gggc9ld144668k600ig33l0tlh0ugn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
