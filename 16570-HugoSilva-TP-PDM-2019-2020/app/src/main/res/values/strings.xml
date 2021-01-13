@@ -6,6 +6,7 @@
     <string name="email">E-mail</string>
     <string name="password">Palavra-passe</string>
     <string name="sign_in">Iniciar Sessão</string>
+    <string name="sign_in_google">Iniciar Sessão com o Google</string>
     <string name="welcome_back">Bem vindo de volta</string>
     <string name="sign_up">Registar</string>
     <string name="don_t_have_an_account">Não tem uma conta?</string>

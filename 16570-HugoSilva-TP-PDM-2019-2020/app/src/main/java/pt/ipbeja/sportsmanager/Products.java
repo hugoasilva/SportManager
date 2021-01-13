@@ -3,16 +3,14 @@ package pt.ipbeja.sportsmanager;
 public class Products {
     private String productName;
     private int available;
-
+    private int imageid;
+    private String price;
     public Products(String productName, int available, int imageid, String price) {
         this.productName = productName;
         this.available = available;
         this.imageid = imageid;
         this.price = price;
     }
-
-    private int imageid;
-    private String price;
 
     public String getProductName() {
         return productName;
@@ -29,9 +27,6 @@ public class Products {
     public String getPrice() {
         return price;
     }
-
-
-
 
 
 }

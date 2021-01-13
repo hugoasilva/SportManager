@@ -2,83 +2,116 @@ package pt.ipbeja.sportsmanager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatTextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    MaterialButton login;
-    AppCompatTextView register;
-    EditText pwd;
-    TextView email;
-
-    FirebaseFirestore db;
+public class LoginActivity extends AppCompatActivity {
+    private static final int RC_SIGN_IN = 9001;
+    EditText email, password;
+    MaterialButton loginButton, registerButton, forgotButton;
+    FirebaseAuth firebaseAuth;
+    GoogleSignInClient mGoogleSignInClient;
+    private SignInButton signInButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         email = findViewById(R.id.ed_email);
-        pwd = findViewById(R.id.ed_password);
-        login = findViewById(R.id.btn_signin);
-        register = findViewById(R.id.txt_signup);
+        password = findViewById(R.id.ed_password);
+        loginButton = findViewById(R.id.btn_signin);
+        registerButton = findViewById(R.id.btn_signup);
+        signInButton = findViewById(R.id.sign_in_google);
+//        forgotButton = findViewById(R.id.btn_forgot);
 
-        db = FirebaseFirestore.getInstance();
-        login.setOnClickListener(this);
-        register.setOnClickListener(this);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        signInButton.setOnClickListener(v -> signIn());
+        loginButton.setOnClickListener(v ->
+                firebaseAuth.signInWithEmailAndPassword(
+                        email.getText().toString(),
+                        password.getText().toString())
+                        .addOnCompleteListener(LoginActivity.this, task -> {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                FirebaseUser user = firebaseAuth.getCurrentUser();
+                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Toast.makeText(LoginActivity.this, "Erro ao iniciar sessão.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }));
+
+        if (firebaseAuth.getCurrentUser() != null) {
+            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        }
 
     }
 
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_signin:
-                if (email.getText().toString().equals("")) {
-                    Toast.makeText(LoginActivity.this, "Please enter valid email", Toast.LENGTH_SHORT).show();
-                } else if (pwd.getText().toString().equals("")) {
-                    Toast.makeText(LoginActivity.this, "Please enter valid password", Toast.LENGTH_SHORT).show();
-                }
-                db.collection("client")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot doc : task.getResult()) {
-                                        String a = doc.getString("Email");
-                                        String b = doc.getString("Password");
-                                        String a1 = email.getText().toString().trim();
-                                        String b1 = pwd.getText().toString().trim();
-                                        if (a.equalsIgnoreCase(a1) & b.equalsIgnoreCase(b1)) {
-                                            Intent home = new Intent(LoginActivity.this, HomeActivity.class);
-                                            startActivity(home);
-                                            Toast.makeText(LoginActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
-                                            break;
-                                        } else
-                                            Toast.makeText(LoginActivity.this, "Cannot login,incorrect Email and Password", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                        });
-                break;
-            case R.id.txt_signup:
-                Intent register_view = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(register_view);
-                break;
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account.getIdToken());
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Toast.makeText(LoginActivity.this, "Erro ao iniciar sessão com o Google.",
+                        Toast.LENGTH_SHORT).show();
+                // ...
+            }
         }
+    }
+
+
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Erro ao iniciar sessão.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

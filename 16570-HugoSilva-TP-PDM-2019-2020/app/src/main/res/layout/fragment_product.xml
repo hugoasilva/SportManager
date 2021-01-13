@@ -8,11 +8,11 @@
         android:id="@+id/tex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/holo_orange_light"
         android:text="Products"
         android:textAlignment="center"
         android:textSize="20dp"
-        android:textStyle="bold"
-        android:background="@android:color/holo_orange_light"/>
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/lst_view"

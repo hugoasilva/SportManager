@@ -8,24 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
     BottomNavigationView navigation;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
-        navigation = findViewById(R.id.bottom_nav);
-        navigation.setOnNavigationItemSelectedListener(navlistener);
-
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction().replace(R.id.frg_space,
-                    new Product()).commit();
-        }
-    }
-
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -39,6 +25,7 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.nav_order:
                     menuItem.setChecked(true);
                     // TODO Change fragment object
+                    FirebaseAuth.getInstance().signOut();
                     selectedFragment = new Fragment();
                     break;
                 case R.id.nav_bills:
@@ -53,6 +40,20 @@ public class HomeActivity extends AppCompatActivity {
             return false;
         }
     };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+
+        navigation = findViewById(R.id.bottom_nav);
+        navigation.setOnNavigationItemSelectedListener(navlistener);
+
+        if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction().replace(R.id.frg_space,
+                    new Product()).commit();
+        }
+    }
 
 
 }

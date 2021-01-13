@@ -21,9 +21,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
-        app:menu="@menu/bottomnavigationitem"
         app:itemIconTint="@drawable/selector_bottombar"
-        app:itemTextColor="@drawable/selector_bottombar">
+        app:itemTextColor="@drawable/selector_bottombar"
+        app:menu="@menu/bottomnavigationitem">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
