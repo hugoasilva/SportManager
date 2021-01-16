@@ -12,33 +12,30 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
     BottomNavigationView navigation;
-    private BottomNavigationView.OnNavigationItemSelectedListener navlistener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            Fragment selectedFragment = null;
+    private BottomNavigationView.OnNavigationItemSelectedListener navlistener = menuItem -> {
+        Fragment selectedFragment = null;
 
-            switch (menuItem.getItemId()) {
-                case R.id.nav_products:
-                    menuItem.setChecked(true);
-                    selectedFragment = new Product();
-                    break;
-                case R.id.nav_order:
-                    menuItem.setChecked(true);
-                    // TODO Change fragment object
-                    FirebaseAuth.getInstance().signOut();
-                    selectedFragment = new Fragment();
-                    break;
-                case R.id.nav_bills:
-                    menuItem.setChecked(true);
-                    selectedFragment = new Bills();
-                    break;
-            }
-
-            getFragmentManager().beginTransaction().replace(R.id.frg_space,
-                    selectedFragment).commit();
-
-            return false;
+        switch (menuItem.getItemId()) {
+            case R.id.nav_products:
+                menuItem.setChecked(true);
+                selectedFragment = new EventsFragment();
+                break;
+            case R.id.nav_order:
+                menuItem.setChecked(true);
+                // TODO Change fragment object
+                FirebaseAuth.getInstance().signOut();
+                selectedFragment = new Fragment();
+                break;
+            case R.id.nav_bills:
+                menuItem.setChecked(true);
+                selectedFragment = new Bills();
+                break;
         }
+
+        getFragmentManager().beginTransaction().replace(R.id.frg_space,
+                selectedFragment).commit();
+
+        return false;
     };
 
     @Override
@@ -51,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().replace(R.id.frg_space,
-                    new Product()).commit();
+                    new EventsFragment()).commit();
         }
     }
 

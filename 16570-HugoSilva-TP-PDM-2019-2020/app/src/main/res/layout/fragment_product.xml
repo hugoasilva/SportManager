@@ -9,9 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/holo_orange_light"
-        android:text="Products"
+        android:text="Eventos"
         android:textAlignment="center"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <ListView

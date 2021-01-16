@@ -3,13 +3,13 @@
     <item
         android:id="@+id/nav_products"
         android:icon="@drawable/ic_cake_black_24dp"
-        android:title="Products" />
+        android:title="Eventos" />
     <item
         android:id="@+id/nav_order"
         android:icon="@drawable/ic_add_shopping_cart_black_24dp"
-        android:title="Order" />
+        android:title="a????" />
     <item
         android:id="@+id/nav_bills"
         android:icon="@drawable/ic_credit_card_black_24dp"
-        android:title="Bills" />
+        android:title="a????" />
 </menu>
