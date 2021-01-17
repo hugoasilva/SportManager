@@ -9,13 +9,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class EventsFragment extends Fragment {
+public class EventsFragment extends Fragment implements View.OnClickListener {
     ListView eventList;
     private List<Event> allEvents = new ArrayList<Event>();
+
+    FirebaseFirestore db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -23,7 +28,9 @@ public class EventsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_product,
                 container, false);
         ListView list = view.findViewById(R.id.lst_view);
-        populateEvents();
+        db = FirebaseFirestore.getInstance();
+
+        this.populateEvents();
         ArrayAdapter<Event> adapter = new MyListAdapter();
         list.setAdapter(adapter);
 
@@ -32,34 +39,26 @@ public class EventsFragment extends Fragment {
 
     // TODO TESTING ONLY, REMOVE BEFORE DELIVERY
     private void populateEvents() {
-        allEvents.add(new Event(
-                "Beja vs Cuba",
-                "38.040485, -7.859489",
-                "20-01-2021",
-                "19:00",
-                "football"
-        ));
-        allEvents.add(new Event(
-                "Évora vs Portalegre",
-                "38.568827, -7.880373",
-                "20-01-2021",
-                "20:00",
-                "basketball"
-        ));
-        allEvents.add(new Event(
-                "Moura vs Serpa",
-                "38.164269, -7.404805",
-                "20-01-2021",
-                "21:00",
-                "handbball"
-        ));
-        allEvents.add(new Event(
-                "Ferreira vs Trigaches",
-                "38.093039, -8.104675",
-                "20-01-2021",
-                "22:00",
-                "football"
-        ));
+        db.collection("events")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            allEvents.add(new Event(
+//                                    Integer.parseInt(doc.getId()),
+                                    doc.getString("name"),
+                                    doc.getString("location"),
+                                    doc.getString("date"),
+                                    doc.getString("time"),
+                                    doc.getString("category")
+                            ));
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onClick(View v) {
 
     }
 
@@ -82,6 +81,7 @@ public class EventsFragment extends Fragment {
 
             TextView name = itemView.findViewById(R.id.event_name);
             name.setText(currentEvent.getName());
+            System.out.println(currentEvent.getName());
 
             TextView date = itemView.findViewById(R.id.event_date);
             date.setText("Data: " + currentEvent.getDate());
