@@ -20,8 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemIconTint="@drawable/selector_bottombar"
-        app:itemTextColor="@drawable/selector_bottombar"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:itemIconTint="@color/bottom_nav_color"
         app:menu="@menu/bottomnavigationitem">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>

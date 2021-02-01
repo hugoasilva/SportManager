@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/background_light">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_orange_light"
+        android:background="@color/greenPrimary"
         android:text="Eventos"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <ListView
-        android:id="@+id/lst_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="411dp"
-        android:layout_below="@id/tex"
-        android:layout_marginTop="1dp">
-
-    </ListView>
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"
+        android:padding="4dp"
+        android:scrollbars="vertical" />
 
 </RelativeLayout>
 
