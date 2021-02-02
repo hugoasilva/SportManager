@@ -1,7 +1,7 @@
 package pt.ipbeja.sportsmanager;
 
 public class Event {
-    private int id;
+    //    private int id;
     private int imageResource;
     private String name;
     private String location;
@@ -9,8 +9,12 @@ public class Event {
     private String time;
     private String category;
 
-    public Event(int id, int imageResource, String name, String location, String date, String time, String category) {
-        this.id = id;
+    public Event() {
+
+    }
+
+    public Event(int imageResource, String name, String location, String date, String time, String category) {
+//        this.id = id;
         this.imageResource = imageResource;
         this.name = name;
         this.location = location;

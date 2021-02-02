@@ -4,10 +4,10 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tex"
+        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/greenPrimary"
+        android:layout_height="30dp"
+        android:background="@color/greenSecondary"
         android:text="Eventos"
         android:textAlignment="center"
         android:textSize="20sp"
@@ -17,8 +17,10 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/textView"
         android:background="@android:color/darker_gray"
         android:padding="4dp"
+        android:paddingTop="60dp"
         android:scrollbars="vertical" />
 
 </RelativeLayout>
