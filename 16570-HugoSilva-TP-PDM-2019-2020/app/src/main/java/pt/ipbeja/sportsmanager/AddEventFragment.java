@@ -1,6 +1,8 @@
 package pt.ipbeja.sportsmanager;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -17,18 +18,22 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -66,7 +71,7 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
         EditText nameInput = view.findViewById(R.id.event_name_input);
         EditText dateInput = view.findViewById(R.id.event_date_input);
         EditText timeInput = view.findViewById(R.id.event_time_input);
-        Button createBtn = view.findViewById(R.id.add_event_btn);
+        FloatingActionButton createBtn = view.findViewById(R.id.add_event_btn);
         this.spinner = view.findViewById(R.id.spinner);
         this.firebaseFirestore = FirebaseFirestore.getInstance();
         this.ref = firebaseFirestore.collection("events").document();
@@ -131,7 +136,9 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                         @Override
                                         public void onSuccess(DocumentReference documentReference) {
-                                            Toast.makeText(getActivity(), "Successfully added", Toast.LENGTH_SHORT).show();
+                                            Snackbar.make(view, "Adicionado com sucesso", Snackbar.LENGTH_SHORT).show();
+                                            getActivity().getSupportFragmentManager().beginTransaction().replace(
+                                                    R.id.frg_space, new EventsFragment()).commit();
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -143,9 +150,6 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
                         }
                     }
                 });
-                System.out.println(event.getName() + " " + event.getDate() + " " + event.getLatitude());
-                getActivity().getSupportFragmentManager().beginTransaction().replace(
-                        R.id.frg_space, new EventsFragment()).commit();
             }
         });
 
@@ -153,6 +157,7 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
 
         return view;
     }
+
 
 //    private void takePhoto() {
 //        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -170,15 +175,7 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-        double[] coordinates = ((HomeActivity)getActivity()).getCurrentLocation();
-        Toast.makeText(getActivity(), String.valueOf(coordinates[1]), Toast.LENGTH_SHORT).show();
-
-        LatLng userLocation = new LatLng(coordinates[0], coordinates[1]);
-        googleMap.addMarker(new MarkerOptions().position(userLocation).title("User Location"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
         googleMap.setOnMapClickListener(latLng -> {
-
             if (this.marker == null) {
                 this.marker = googleMap.addMarker(
                         new MarkerOptions()
@@ -188,7 +185,31 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
                 this.marker.setPosition(latLng);
             }
         });
+        double[] coords = new double[2];
+        if (ContextCompat.checkSelfPermission(
+                getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION
+        ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    getActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    1
+            );
+        } else {
+            coords = ((HomeActivity) getActivity()).getCurrentLocation();
+        }
 
+        Toast.makeText(getContext(), coords[0] + "", Toast.LENGTH_SHORT).show();
+
+        LatLng userLocation = new LatLng(coords[0], coords[1]);
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(userLocation)      // Sets the center of the map to Mountain View
+                .zoom(15)                   // Sets the zoom
+                .bearing(90)                // Sets the orientation of the camera to east
+                .tilt(30)                   // Sets the tilt of the camera to 30 degrees
+                .build();                   // Creates a CameraPosition from the builder
+
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     @Override
