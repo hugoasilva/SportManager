@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import pt.ipbeja.sportsmanager.data.Event;
+
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
     private ArrayList<Event> eventList;
 

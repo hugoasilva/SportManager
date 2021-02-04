@@ -1,6 +1,5 @@
 package pt.ipbeja.sportsmanager;
 
-import androidx.fragment.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,13 +10,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+
+import pt.ipbeja.sportsmanager.data.Event;
 
 
 public class EventsFragment extends Fragment {
@@ -32,10 +35,11 @@ public class EventsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_product,
+        View view = inflater.inflate(R.layout.fragment_events,
                 container, false);
         firebaseFirestore = FirebaseFirestore.getInstance();
         eventRecyclerView = view.findViewById(R.id.recyclerView);
+        FloatingActionButton addEventButton = view.findViewById(R.id.add_event);
 
 
         // Query
@@ -66,6 +70,9 @@ public class EventsFragment extends Fragment {
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         eventRecyclerView.setAdapter(adapter);
 
+        addEventButton.setOnClickListener(v ->
+                getActivity().getSupportFragmentManager().beginTransaction().replace(
+                        R.id.frg_space, new AddEventFragment()).commit());
 
 //        this.populateEvents();
 

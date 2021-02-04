@@ -1,10 +1,11 @@
-package pt.ipbeja.sportsmanager;
+package pt.ipbeja.sportsmanager.data;
 
 public class Event {
     //    private int id;
     private int imageResource;
     private String name;
-    private String location;
+    private String latitude;
+    private String longitude;
     private String date;
     private String time;
     private String category;
@@ -13,11 +14,13 @@ public class Event {
 
     }
 
-    public Event(int imageResource, String name, String location, String date, String time, String category) {
+    public Event(int imageResource, String name, String latitude,
+                 String longitude, String date, String time, String category) {
 //        this.id = id;
         this.imageResource = imageResource;
         this.name = name;
-        this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.date = date;
         this.time = time;
         this.category = category;
@@ -35,12 +38,20 @@ public class Event {
         this.name = name;
     }
 
-    public String getLocation() {
-        return this.location;
+    public String getLatitude() {
+        return this.latitude;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return this.longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
     public void setDate(String date) {

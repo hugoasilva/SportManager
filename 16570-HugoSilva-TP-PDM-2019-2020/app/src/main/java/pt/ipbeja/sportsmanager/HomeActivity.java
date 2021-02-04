@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
                 break;
             case R.id.nav_bills:
                 menuItem.setChecked(true);
-                selectedFragment = new Bills();
+                selectedFragment = new ProfileFragment();
                 break;
         }
 

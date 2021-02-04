@@ -11,4 +11,11 @@
     <string name="sign_up">Registar</string>
     <string name="don_t_have_an_account">Não tem uma conta?</string>
     <string name="sign_up_here">Registe-se</string>
+
+    <string-array name="sports">
+        <item>Basketball</item>
+        <item>Football</item>
+        <item>Handball</item>
+    </string-array>
+
 </resources>
