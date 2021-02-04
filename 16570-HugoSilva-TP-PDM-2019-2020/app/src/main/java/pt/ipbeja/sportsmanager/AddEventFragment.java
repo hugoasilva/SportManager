@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -24,6 +27,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import pt.ipbeja.sportsmanager.data.Event;
 import pt.ipbeja.sportsmanager.data.Position;
@@ -36,6 +47,9 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
     private ImageView photoImageView;
     private Spinner spinner;
     private Bitmap photoBitmap;
+
+    FirebaseFirestore firebaseFirestore;
+    DocumentReference ref;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -54,6 +68,8 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
         EditText timeInput = view.findViewById(R.id.event_time_input);
         Button createBtn = view.findViewById(R.id.add_event_btn);
         this.spinner = view.findViewById(R.id.spinner);
+        this.firebaseFirestore = FirebaseFirestore.getInstance();
+        this.ref = firebaseFirestore.collection("events").document();
 //        this.photoImageView = view.findViewById(R.id.event_photo);
 
         createBtn.setOnClickListener(v -> {
@@ -94,7 +110,39 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
 //                ChatDatabase.getInstance(getApplicationContext())
 //                        .contactDao()
 //                        .insert(contact);
+                this.ref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
 
+                        if (documentSnapshot.exists()) {
+                            Toast.makeText(getActivity(), "Sorry,this user exists", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Map<String, Object> reg_entry = new HashMap<>();
+                            reg_entry.put("name", event.getName());
+                            reg_entry.put("date", event.getDate());
+                            reg_entry.put("time", event.getTime());
+                            reg_entry.put("latitude", event.getLatitude());
+                            reg_entry.put("longitude", event.getLongitude());
+                            reg_entry.put("category", event.getCategory());
+
+                            //   String myId = ref.getId();
+                            firebaseFirestore.collection("events")
+                                    .add(reg_entry)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Toast.makeText(getActivity(), "Successfully added", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d("Error", e.getMessage());
+                                        }
+                                    });
+                        }
+                    }
+                });
                 System.out.println(event.getName() + " " + event.getDate() + " " + event.getLatitude());
                 getActivity().getSupportFragmentManager().beginTransaction().replace(
                         R.id.frg_space, new EventsFragment()).commit();
@@ -123,6 +171,12 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+        double[] coordinates = ((HomeActivity)getActivity()).getCurrentLocation();
+        Toast.makeText(getActivity(), String.valueOf(coordinates[1]), Toast.LENGTH_SHORT).show();
+
+        LatLng userLocation = new LatLng(coordinates[0], coordinates[1]);
+        googleMap.addMarker(new MarkerOptions().position(userLocation).title("User Location"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
         googleMap.setOnMapClickListener(latLng -> {
 
             if (this.marker == null) {

@@ -52,7 +52,9 @@ public class HomeActivity extends AppCompatActivity {
                     REQUEST_CODE_LOCATION_PERMISSION
             );
         } else {
-            getCurrentLocation();
+            double[] coords = getCurrentLocation();
+
+            Toast.makeText(this, coords[0] + " " + coords[1], Toast.LENGTH_SHORT).show();
         }
 
 
@@ -90,7 +92,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public double[] getCurrentLocation() {
 
-        double[] location = new double[1];
+        double[] location = new double[2];
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(10000);
         locationRequest.setFastestInterval(3000);
@@ -111,7 +113,7 @@ public class HomeActivity extends AppCompatActivity {
                                 double longitude =
                                         locationResult.getLocations().get(latestLocationIndex).getLongitude();
                                 location[0] = latitude;
-                                location[0] = longitude;
+                                location[1] = longitude;
                             }
                         }
                     }, Looper.getMainLooper());
