@@ -30,7 +30,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -44,6 +43,12 @@ import java.util.Map;
 import pt.ipbeja.sportsmanager.data.Event;
 import pt.ipbeja.sportsmanager.data.Position;
 
+/**
+ * Add Event Fragment Class
+ *
+ * @author Hugo Silva - 16570
+ * @version 2021-02-05
+ */
 public class AddEventFragment extends Fragment implements OnMapReadyCallback {
 
     private static final int PHOTO_REQUEST_CODE = 1001;
@@ -81,10 +86,10 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
             String name = nameInput.getText().toString();
             String date = dateInput.getText().toString();
             String time = timeInput.getText().toString();
-            String sport = spinner.getSelectedItem().toString();
+            String category = spinner.getSelectedItem().toString();
 
             if (name.isEmpty() || date.isEmpty()
-                    || time.isEmpty() || sport.isEmpty() || marker == null) {
+                    || time.isEmpty() || category.isEmpty() || marker == null) {
                 Snackbar.make(nameInput, "Prencher campos", Snackbar.LENGTH_SHORT).show();
             } else {
                 LatLng latLng = marker.getPosition();
@@ -110,8 +115,7 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
                 // Atenção que este exemplo mostra 2 formas de guardar os bytes do bitmap
                 // Por um lado guarda os bytes na BD (menos correcto, mas ok para 'poucos' bytes, ver BLOB) - photoBytes
                 // Por outro guarda o caminho para onde o ficheiro está guardado (mais correcto)  - filename
-                Event event = new Event(1, name, String.valueOf(position.getLat()),
-                        String.valueOf(position.getLng()), date, time, sport);
+                Event event = new Event(1, name, position, date, time, category);
 //                ChatDatabase.getInstance(getApplicationContext())
 //                        .contactDao()
 //                        .insert(contact);
@@ -120,33 +124,35 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
 
                         if (documentSnapshot.exists()) {
-                            Toast.makeText(getActivity(), "Sorry,this user exists", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(
+                                    getActivity(),
+                                    "Event already exists",
+                                    Toast.LENGTH_SHORT).show();
                         } else {
                             Map<String, Object> reg_entry = new HashMap<>();
                             reg_entry.put("name", event.getName());
                             reg_entry.put("date", event.getDate());
                             reg_entry.put("time", event.getTime());
-                            reg_entry.put("latitude", event.getLatitude());
-                            reg_entry.put("longitude", event.getLongitude());
+                            reg_entry.put("latitude", event.getPosition().getLatitude());
+                            reg_entry.put("longitude", event.getPosition().getLongitude());
                             reg_entry.put("category", event.getCategory());
 
                             //   String myId = ref.getId();
                             firebaseFirestore.collection("events")
                                     .add(reg_entry)
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                        @Override
-                                        public void onSuccess(DocumentReference documentReference) {
-                                            Snackbar.make(view, "Adicionado com sucesso", Snackbar.LENGTH_SHORT).show();
-                                            getActivity().getSupportFragmentManager().beginTransaction().replace(
-                                                    R.id.frg_space, new EventsFragment()).commit();
-                                        }
+                                    .addOnSuccessListener(documentReference -> {
+                                        Snackbar.make(
+                                                view,
+                                                "Adicionado com sucesso",
+                                                Snackbar.LENGTH_SHORT).show();
+                                        getActivity()
+                                                .getSupportFragmentManager()
+                                                .beginTransaction()
+                                                .replace(
+                                                        R.id.frg_space,
+                                                        new EventsFragment()).commit();
                                     })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.d("Error", e.getMessage());
-                                        }
-                                    });
+                                    .addOnFailureListener(e -> Log.d("Error", e.getMessage()));
                         }
                     }
                 });

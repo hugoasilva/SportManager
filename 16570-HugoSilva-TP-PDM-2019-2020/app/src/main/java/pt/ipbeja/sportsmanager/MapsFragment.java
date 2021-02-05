@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pt.ipbeja.sportsmanager.data.Event;
+import pt.ipbeja.sportsmanager.data.Position;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private FirebaseFirestore firebaseFirestore;
@@ -64,8 +65,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         currentLocation.setLatitude(userLocation.latitude);
         currentLocation.setLongitude(userLocation.longitude);
         for (Event event : this.eventList) {
-            double latitude = Double.parseDouble(event.getLatitude());
-            double longitude = Double.parseDouble(event.getLongitude());
+            double latitude = event.getPosition().getLatitude();
+            double longitude = event.getPosition().getLongitude();
             Location eventLocation = new Location("");
             eventLocation.setLatitude(latitude);
             eventLocation.setLongitude(longitude);
@@ -74,10 +75,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             System.out.println("Distancia: " + distance + " " + latitude);
 
             if (distance < radius) {
-                System.out.println(event.getLatitude());
+                System.out.println(event.getPosition().toString());
                 LatLng eventCoordinates = new LatLng(
-                        Double.parseDouble(event.getLatitude()),
-                        Double.parseDouble(event.getLongitude()));
+                        event.getPosition().getLatitude(),
+                        event.getPosition().getLongitude());
                 googleMap.addMarker(
                         new MarkerOptions()
                                 .position(eventCoordinates)
@@ -108,11 +109,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Position position = new Position(
+                                    Double.parseDouble(doc.getString("latitude")),
+                                    Double.parseDouble(doc.getString("longitude")));
                             this.eventList.add(new Event(
                                     R.drawable.ic_handball,
                                     doc.getString("name"),
-                                    doc.getString("latitude"),
-                                    doc.getString("longitude"),
+                                    position,
                                     doc.getString("date"),
                                     doc.getString("time"),
                                     doc.getString("category")

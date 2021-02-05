@@ -43,7 +43,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @Override
     public void onBindViewHolder(EventViewHolder holder, int position) {
         Event currentEvent = this.eventList.get(position);
-        holder.imageView.setImageResource(currentEvent.getImageResource());
+        holder.imageView.setImageResource(currentEvent.getIcon());
         holder.nameView.setText(currentEvent.getName());
         holder.dateView.setText(currentEvent.getDate());
     }

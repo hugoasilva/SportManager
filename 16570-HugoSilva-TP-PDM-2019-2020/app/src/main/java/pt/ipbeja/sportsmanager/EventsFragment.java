@@ -60,7 +60,7 @@ public class EventsFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull EventViewHolder holder,
                                             int position, @NonNull Event model) {
-                holder.imageView.setImageResource(model.getImageResource());
+                holder.imageView.setImageResource(model.getIcon());
                 holder.nameView.setText(model.getName());
                 holder.dateView.setText(model.getDate());
             }
@@ -101,25 +101,4 @@ public class EventsFragment extends Fragment {
         super.onStop();
         adapter.stopListening();
     }
-
-//    // TODO TESTING ONLY, REMOVE BEFORE DELIVERY
-//    private void populateEvents() {
-//        firebaseFirestore.collection("events")
-//                .get()
-//                .addOnCompleteListener(task -> {
-//                    if (task.isSuccessful()) {
-//                        for (QueryDocumentSnapshot doc : task.getResult()) {
-//                            this.eventList.add(new Event(
-//                                    R.drawable.ic_handball,
-//                                    doc.getString("name"),
-//                                    doc.getString("location"),
-//                                    doc.getString("date"),
-//                                    doc.getString("time"),
-//                                    doc.getString("category")
-//                            ));
-//                            System.out.println(doc.getString("name"));
-//                        }
-//                    }
-//                });
-//    }
 }

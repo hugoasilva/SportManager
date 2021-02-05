@@ -2,51 +2,94 @@ package pt.ipbeja.sportsmanager.data;
 
 import java.util.Objects;
 
+/**
+ * Position Class
+ *
+ * @author Hugo Silva - 16570
+ * @version 2021-02-05
+ */
 public class Position {
+    private double latitude;
+    private double longitude;
 
-    private double lat;
-    private double lng;
-
-    public Position(double lat, double lng) {
-        this.lat = lat;
-        this.lng = lng;
+    /**
+     * Position object constructor
+     *
+     * @param latitude  event's latitude
+     * @param longitude event's longitude
+     */
+    public Position(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public double getLat() {
-        return lat;
+    /**
+     * Get position latitude
+     *
+     * @return position latitude
+     */
+    public double getLatitude() {
+        return this.latitude;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
+    /**
+     * Set position latitude
+     */
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public double getLng() {
-        return lng;
+    /**
+     * Get position longitude
+     *
+     * @return position longitude
+     */
+    public double getLongitude() {
+        return this.longitude;
     }
 
-    public void setLng(double lng) {
-        this.lng = lng;
+    /**
+     * Set position longitude
+     */
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
+    /**
+     * Get position as String object
+     *
+     * @return position as String
+     */
     @Override
     public String toString() {
         return "Position{" +
-                "lat=" + lat +
-                ", lng=" + lng +
+                "latitude=" + this.latitude +
+                ", longitude=" + this.longitude +
                 '}';
     }
 
+    /**
+     * Compare position
+     *
+     * @param object object to compare
+     * @return true if same position, false otherwise
+     */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Position position = (Position) o;
-        return Double.compare(position.lat, lat) == 0 &&
-                Double.compare(position.lng, lng) == 0;
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Position position = (Position) object;
+        return Double.compare(position.latitude, this.latitude) == 0 &&
+                Double.compare(position.longitude, this.longitude) == 0;
     }
 
+    /**
+     * Get position hash code
+     *
+     * @return position hash code
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(lat, lng);
+        return Objects.hash(this.latitude, this.longitude);
     }
 }
