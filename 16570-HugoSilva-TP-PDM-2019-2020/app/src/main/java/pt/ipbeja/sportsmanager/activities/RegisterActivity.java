@@ -1,4 +1,4 @@
-package pt.ipbeja.sportsmanager;
+package pt.ipbeja.sportsmanager.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
+
+import pt.ipbeja.sportsmanager.R;
 
 public class RegisterActivity extends AppCompatActivity {
     MaterialButton registerButton, loginButton;

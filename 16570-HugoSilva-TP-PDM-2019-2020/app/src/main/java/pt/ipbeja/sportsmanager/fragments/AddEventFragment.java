@@ -1,11 +1,14 @@
-package pt.ipbeja.sportsmanager;
+package pt.ipbeja.sportsmanager.fragments;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,10 +39,20 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
+import pt.ipbeja.sportsmanager.BitmapUtils;
+import pt.ipbeja.sportsmanager.R;
+import pt.ipbeja.sportsmanager.activities.HomeActivity;
 import pt.ipbeja.sportsmanager.data.Event;
 import pt.ipbeja.sportsmanager.data.Position;
 
@@ -59,6 +72,7 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
     private Bitmap photoBitmap;
 
     FirebaseFirestore firebaseFirestore;
+    FirebaseStorage firebaseStorage;
     DocumentReference ref;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -78,9 +92,10 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
         EditText timeInput = view.findViewById(R.id.event_time_input);
         FloatingActionButton createBtn = view.findViewById(R.id.add_event_btn);
         this.spinner = view.findViewById(R.id.spinner);
+        this.photoImageView = view.findViewById(R.id.event_photo);
         this.firebaseFirestore = FirebaseFirestore.getInstance();
         this.ref = firebaseFirestore.collection("events").document();
-//        this.photoImageView = view.findViewById(R.id.event_photo);
+        this.firebaseStorage = FirebaseStorage.getInstance();
 
         createBtn.setOnClickListener(v -> {
             String name = nameInput.getText().toString();
@@ -95,23 +110,27 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
                 LatLng latLng = marker.getPosition();
                 Position position = new Position(latLng.latitude, latLng.longitude);
                 System.out.println(latLng);
-//                String filename = null;
+                String filename = null;
 
-//                // Vamos converter um bitmap para bytes
-//                byte[] photoBytes = BitmapUtils.toBytes(photoBitmap);
-//
-//                if (photoBytes != null) {
-//                    // https://developer.android.com/training/data-storage
-//                    File folder = getActivity()
-//                            .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-//                    filename = UUID.randomUUID().toString() + ".jpg"; // Um filename aleatório (podiamos usar um timestamp)
-//                    File file = new File(folder, filename);
-//                    try {
-//                        Files.write(file.toPath(), photoBytes); // gravar os bytes no ficheiro
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+                // Vamos converter um bitmap para bytes
+                byte[] photoBytes = BitmapUtils.toBytes(photoBitmap);
+
+                if (photoBytes != null) {
+                    // https://developer.android.com/training/data-storage
+                    File folder = getActivity()
+                            .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                    filename = UUID.randomUUID().toString() + ".jpg"; // Um filename aleatório (podiamos usar um timestamp)
+                    File file = new File(folder, filename);
+                    Uri fileUri = Uri.fromFile(file);
+                    try {
+                        StorageReference picRef = firebaseStorage
+                                .getReference()
+                                .child("/images/" + fileUri.getLastPathSegment());
+                        UploadTask uploadTask = picRef.putFile(fileUri);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 // Atenção que este exemplo mostra 2 formas de guardar os bytes do bitmap
                 // Por um lado guarda os bytes na BD (menos correcto, mas ok para 'poucos' bytes, ver BLOB) - photoBytes
                 // Por outro guarda o caminho para onde o ficheiro está guardado (mais correcto)  - filename
@@ -159,16 +178,16 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-//        this.photoImageView.setOnClickListener(v -> takePhoto());
+        this.photoImageView.setOnClickListener(v -> takePhoto());
 
         return view;
     }
 
 
-//    private void takePhoto() {
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        startActivityForResult(intent, PHOTO_REQUEST_CODE);
-//    }
+    private void takePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, PHOTO_REQUEST_CODE);
+    }
 
 
     @Override

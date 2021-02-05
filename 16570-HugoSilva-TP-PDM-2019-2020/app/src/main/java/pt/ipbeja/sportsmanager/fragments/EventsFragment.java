@@ -1,4 +1,4 @@
-package pt.ipbeja.sportsmanager;
+package pt.ipbeja.sportsmanager.fragments;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -20,9 +20,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import pt.ipbeja.sportsmanager.R;
 import pt.ipbeja.sportsmanager.data.Event;
 
 
+/**
+ * Events Fragment Class
+ *
+ * @author Hugo Silva - 16570
+ * @version 2021-02-05
+ */
 public class EventsFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore;
     private RecyclerView eventRecyclerView;

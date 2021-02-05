@@ -1,4 +1,4 @@
-package pt.ipbeja.sportsmanager;
+package pt.ipbeja.sportsmanager.fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -28,10 +28,18 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import pt.ipbeja.sportsmanager.activities.HomeActivity;
+import pt.ipbeja.sportsmanager.R;
 import pt.ipbeja.sportsmanager.data.Event;
 import pt.ipbeja.sportsmanager.data.Position;
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback {
+/**
+ * Map Fragment Class
+ *
+ * @author Hugo Silva - 16570
+ * @version 2021-02-05
+ */
+public class MapFragment extends Fragment implements OnMapReadyCallback {
     private FirebaseFirestore firebaseFirestore;
     private final List<Event> eventList = new ArrayList<>();
 
@@ -110,8 +118,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot doc : task.getResult()) {
                             Position position = new Position(
-                                    Double.parseDouble(doc.getString("latitude")),
-                                    Double.parseDouble(doc.getString("longitude")));
+                                    doc.getDouble("latitude"),
+                                    doc.getDouble("longitude"));
                             this.eventList.add(new Event(
                                     R.drawable.ic_handball,
                                     doc.getString("name"),

@@ -6,11 +6,11 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_orange_light"
-        android:text="Bills"
+        android:layout_height="30dp"
+        android:background="@color/greenSecondary"
+        android:text="Perfil"
         android:textAlignment="center"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

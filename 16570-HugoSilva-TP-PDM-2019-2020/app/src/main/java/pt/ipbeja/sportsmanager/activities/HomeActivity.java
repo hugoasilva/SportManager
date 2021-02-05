@@ -1,4 +1,4 @@
-package pt.ipbeja.sportsmanager;
+package pt.ipbeja.sportsmanager.activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -17,6 +17,11 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import pt.ipbeja.sportsmanager.R;
+import pt.ipbeja.sportsmanager.fragments.EventsFragment;
+import pt.ipbeja.sportsmanager.fragments.MapFragment;
+import pt.ipbeja.sportsmanager.fragments.ProfileFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -37,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
                 menuItem.setChecked(true);
                 // TODO CREATE LOGOUT
 //                FirebaseAuth.getInstance().signOut();
-                selectedFragment = new MapsFragment();
+                selectedFragment = new MapFragment();
                 break;
             case R.id.nav_bills:
                 menuItem.setChecked(true);

@@ -1,4 +1,4 @@
-package pt.ipbeja.sportsmanager;
+package pt.ipbeja.sportsmanager.fragments;
 
 import android.os.Bundle;
 
@@ -8,10 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import pt.ipbeja.sportsmanager.R;
+
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link EventDetailsFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Event Details Fragment Class
+ *
+ * @author Hugo Silva - 16570
+ * @version 2021-02-05
  */
 public class EventDetailsFragment extends Fragment {
 
