@@ -73,29 +73,6 @@ public class EventsFragment extends Fragment {
         addEventButton.setOnClickListener(v ->
                 getActivity().getSupportFragmentManager().beginTransaction().replace(
                         R.id.frg_space, new AddEventFragment()).commit());
-
-//        this.populateEvents();
-
-//        eventList.add(new Event(
-//                1, R.drawable.ic_basketball,
-//                "Beja vs Cuba",
-//                "38.040485, -7.859489",
-//                "20-02-2021",
-//                "19:00",
-//                "basketball"));
-//        eventList.add(new Event(
-//                1, R.drawable.ic_handball,
-//                "Beja vs Ferreira",
-//                "39.040485, -8.859489",
-//                "21-02-2021",
-//                "20:00",
-//                "handball"));
-//        eventRecyclerView = view.findViewById(R.id.recyclerView);
-//        eventRecyclerView.setHasFixedSize(true);
-//        eventLayoutManager = new LinearLayoutManager(this.getContext());
-//        eventAdapter = new EventAdapter(this.eventList);
-//        eventRecyclerView.setLayoutManager(eventLayoutManager);
-//        eventRecyclerView.setAdapter(eventAdapter);
         return view;
     }
 
