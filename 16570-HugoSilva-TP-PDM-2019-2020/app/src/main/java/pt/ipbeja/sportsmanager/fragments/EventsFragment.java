@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,7 +30,7 @@ import pt.ipbeja.sportsmanager.data.Event;
  * Events Fragment Class
  *
  * @author Hugo Silva - 16570
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 public class EventsFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore;
@@ -37,6 +39,20 @@ public class EventsFragment extends Fragment {
 //    private ArrayList<Event> eventList = new ArrayList<>();
 
     private FirestoreRecyclerAdapter adapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // This callback will only be called when MyFragment is at least Started.
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                getActivity().moveTaskToBack(true);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -51,6 +67,7 @@ public class EventsFragment extends Fragment {
 
         // Query
         Query query = firebaseFirestore.collection("events");
+        System.out.println(query.get().toString());
         // RecyclerOptions
         FirestoreRecyclerOptions<Event> options = new FirestoreRecyclerOptions.Builder<Event>()
                 .setQuery(query, Event.class)
@@ -67,7 +84,19 @@ public class EventsFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull EventViewHolder holder,
                                             int position, @NonNull Event model) {
-                holder.imageView.setImageResource(model.getIcon());
+                int icon = 0;
+                switch (model.getCategory()) {
+                    case "Basketball":
+                        icon = R.drawable.ic_basketball;
+                        break;
+                    case "Football":
+                        icon = R.drawable.ic_baseball;
+                        break;
+                    case "Handball":
+                        icon = R.drawable.ic_handball;
+                        break;
+                }
+                holder.imageView.setImageResource(icon);
                 holder.nameView.setText(model.getName());
                 holder.dateView.setText(model.getDate());
             }
@@ -94,6 +123,20 @@ public class EventsFragment extends Fragment {
             imageView = itemView.findViewById(R.id.image_view);
             nameView = itemView.findViewById(R.id.name_view);
             dateView = itemView.findViewById(R.id.date_view);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                System.out.println(position);
+                Bundle bundle = new Bundle();
+                bundle.putInt("key", position);
+                Fragment detailsFragment = new EventDetailsFragment();
+                detailsFragment.setArguments(bundle);
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frg_space, detailsFragment)
+                        .commit();
+            });
         }
     }
 

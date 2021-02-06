@@ -1,6 +1,7 @@
 package pt.ipbeja.sportsmanager.activities;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Looper;
@@ -17,6 +18,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import pt.ipbeja.sportsmanager.R;
 import pt.ipbeja.sportsmanager.fragments.EventsFragment;
@@ -27,6 +29,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
 
+    FirebaseAuth firebaseAuth;
     double[] coords = new double[2];
 
     BottomNavigationView navigation;
@@ -63,6 +66,12 @@ public class HomeActivity extends AppCompatActivity {
 
         navigation = findViewById(R.id.bottom_nav);
         navigation.setOnNavigationItemSelectedListener(navlistener);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
+        if (firebaseAuth.getCurrentUser() == null) {
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        }
 
         if (ContextCompat.checkSelfPermission(
                 getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION
