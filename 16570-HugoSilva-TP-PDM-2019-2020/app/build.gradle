@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "pt.ipbeja.sportsmanager"
-        minSdkVersion 22
+        minSdkVersion 28
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"

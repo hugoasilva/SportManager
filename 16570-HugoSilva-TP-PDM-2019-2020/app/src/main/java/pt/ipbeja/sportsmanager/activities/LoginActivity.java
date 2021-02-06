@@ -38,8 +38,8 @@ public class LoginActivity extends AppCompatActivity {
 
         email = findViewById(R.id.ed_email);
         password = findViewById(R.id.ed_password);
-        loginButton = findViewById(R.id.btn_signin);
-        registerButton = findViewById(R.id.btn_signup);
+        loginButton = findViewById(R.id.btn_sign_in);
+        registerButton = findViewById(R.id.btn_sign_up);
         signInButton = findViewById(R.id.sign_in_google);
 //        forgotButton = findViewById(R.id.btn_forgot);
 

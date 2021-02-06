@@ -1,16 +1,31 @@
 <resources>
     <string name="app_name">Sports Manager</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="user_name">Nome</string>
+    <string name="map">Map</string>
+    <string name="user_name">Name</string>
     <string name="email">E-mail</string>
-    <string name="password">Palavra-passe</string>
-    <string name="sign_in">Iniciar Sessão</string>
-    <string name="sign_in_google">Iniciar Sessão com o Google</string>
-    <string name="welcome_back">Bem vindo de volta</string>
-    <string name="sign_up">Registar</string>
-    <string name="don_t_have_an_account">Não tem uma conta?</string>
-    <string name="sign_up_here">Registe-se</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="welcome_back">Welcome back</string>
+    <string name="sign_up">Sign up</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up_here">Sign up</string>
+    <string name="events">Events</string>
+    <string name="event">Event: </string>
+    <string name="add_event">Add Event</string>
+    <string name="date">Date: </string>
+    <string name="time">Time: </string>
+    <string name="sport">Sport</string>
+    <string name="details">Details</string>
+    <string name="events_near_you">Events near you</string>
+    <string name="profile">Profile</string>
+
+
+
+
+
+
+
 
     <string-array name="sports">
         <item>Basketball</item>

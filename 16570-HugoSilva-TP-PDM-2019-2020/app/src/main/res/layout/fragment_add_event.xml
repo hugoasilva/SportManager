@@ -35,7 +35,7 @@
             android:id="@+id/event_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nome do Evento" />
+            android:hint="@string/event" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputEditText
@@ -46,7 +46,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="13dp"
         android:layout_marginBottom="7dp"
-        android:hint="Data"
+        android:hint="@string/date"
         app:layout_constraintBottom_toTopOf="@+id/spinner"
         app:layout_constraintEnd_toStartOf="@+id/event_time_input"
         app:layout_constraintHorizontal_bias="0.559"
@@ -61,7 +61,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="124dp"
         android:layout_marginBottom="6dp"
-        android:hint="Horas"
+        android:hint="@string/time"
         app:layout_constraintBottom_toTopOf="@+id/spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
@@ -72,10 +72,10 @@
         android:layout_width="54dp"
         android:layout_height="54dp"
         android:layout_gravity="end"
-        android:layout_marginRight="36dp"
+        android:layout_marginEnd="36dp"
         android:layout_marginBottom="36dp"
         android:backgroundTint="@color/greenSecondary"
-        android:contentDescription="Add Event"
+        android:contentDescription="@string/add_event"
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -100,12 +100,11 @@
         android:layout_marginTop="100dp"
         android:layout_marginBottom="29dp"
         android:entries="@array/sports"
-        android:tooltipText="Desporto"
+        android:tooltipText="@string/sport"
         app:layout_constraintBottom_toTopOf="@+id/add_event_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.175"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/event_photo"
         tools:listitem="@android:layout/simple_spinner_item" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

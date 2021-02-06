@@ -25,8 +25,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         email = findViewById(R.id.ed_email);
         password = findViewById(R.id.ed_password);
-        registerButton = findViewById(R.id.btn_signup);
-        loginButton = findViewById(R.id.btn_signin);
+        registerButton = findViewById(R.id.btn_sign_up);
+        loginButton = findViewById(R.id.btn_sign_in);
 
         firebaseAuth = FirebaseAuth.getInstance();
 

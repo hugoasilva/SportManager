@@ -7,8 +7,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/greenSecondary"
-        android:text="Detalhes"
+        android:background="?attr/colorPrimary"
+        android:text="@string/details"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -16,6 +16,5 @@
     <TextView
         android:id="@+id/location_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent" />
 </RelativeLayout>

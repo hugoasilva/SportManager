@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Sports Manager</string>
+    <string name="map">Mapa</string>
+    <string name="user_name">Nome</string>
+    <string name="email">E-mail</string>
+    <string name="password">Palavra-passe</string>
+    <string name="sign_in">Iniciar Sessão</string>
+    <string name="sign_in_google">Iniciar Sessão com o Google</string>
+    <string name="welcome_back">Bem-vindo de volta</string>
+    <string name="sign_up">Registar</string>
+    <string name="don_t_have_an_account">Não tem uma conta?</string>
+    <string name="sign_up_here">Registe-se</string>
+    <string name="events">Eventos</string>
+    <string name="event">Evento: </string>
+    <string name="add_event">Adicionar Evento</string>
+    <string name="date">Data: </string>
+    <string name="time">Hora: </string>
+    <string name="sport">Desporto</string>
+    <string name="details">Detalhes</string>
+    <string name="events_near_you">Eventos perto de si</string>
+    <string name="profile">Pefil</string>
+
+    <string-array name="sports">
+        <item>Basquetebol</item>
+        <item>Futebol</item>
+        <item>Andebol</item>
+    </string-array>
+
+</resources>

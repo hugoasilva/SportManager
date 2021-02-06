@@ -9,8 +9,8 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/greenSecondary"
-        android:text="Eventos perto de si"
+        android:background="?attr/colorPrimary"
+        android:text="@string/events_near_you"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -27,7 +27,4 @@
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".fragments.MapFragment" />
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

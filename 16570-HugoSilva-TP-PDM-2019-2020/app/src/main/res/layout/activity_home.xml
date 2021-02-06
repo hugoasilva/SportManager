@@ -22,7 +22,7 @@
         android:layout_alignParentBottom="true"
         app:itemTextColor="@color/bottom_nav_color"
         app:itemIconTint="@color/bottom_nav_color"
-        app:menu="@menu/bottomnavigationitem">
+        app:menu="@menu/bottom_navigation_item">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
