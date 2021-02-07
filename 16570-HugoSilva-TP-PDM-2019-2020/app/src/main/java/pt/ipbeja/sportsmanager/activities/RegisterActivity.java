@@ -14,9 +14,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import pt.ipbeja.sportsmanager.R;
 
 public class RegisterActivity extends AppCompatActivity {
-    MaterialButton registerButton, loginButton;
-    EditText email, password;
-    FirebaseAuth firebaseAuth;
+    private MaterialButton registerButton, loginButton;
+    private EditText email, password;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

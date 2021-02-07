@@ -29,8 +29,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ipbeja.sportsmanager.activities.HomeActivity;
 import pt.ipbeja.sportsmanager.R;
+import pt.ipbeja.sportsmanager.activities.HomeActivity;
 import pt.ipbeja.sportsmanager.data.Event;
 import pt.ipbeja.sportsmanager.data.Position;
 
@@ -41,8 +41,8 @@ import pt.ipbeja.sportsmanager.data.Position;
  * @version 2021-02-05
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
-    private FirebaseFirestore firebaseFirestore;
     private final List<Event> eventList = new ArrayList<>();
+    private FirebaseFirestore firebaseFirestore;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

@@ -25,11 +25,11 @@ import pt.ipbeja.sportsmanager.R;
 
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
-    EditText email, password;
-    MaterialButton loginButton, registerButton, forgotButton;
-    FirebaseAuth firebaseAuth;
-    GoogleSignInClient mGoogleSignInClient;
-    private SignInButton signInButton;
+    private EditText email, password;
+    private MaterialButton loginButton, registerButton, forgotButton;
+    private FirebaseAuth firebaseAuth;
+    private GoogleSignInClient mGoogleSignInClient;
+    private SignInButton signInGoogleButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.ed_password);
         loginButton = findViewById(R.id.btn_sign_in);
         registerButton = findViewById(R.id.btn_sign_up);
-        signInButton = findViewById(R.id.sign_in_google);
+        signInGoogleButton = findViewById(R.id.sign_in_google);
 //        forgotButton = findViewById(R.id.btn_forgot);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        signInButton.setOnClickListener(v -> signIn());
+        signInGoogleButton.setOnClickListener(v -> signInGoogle());
         loginButton.setOnClickListener(v ->
                 firebaseAuth.signInWithEmailAndPassword(
                         email.getText().toString(),
@@ -75,7 +75,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void signIn() {
+    /**
+     * Sign in with Google account
+     */
+    private void signInGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
 

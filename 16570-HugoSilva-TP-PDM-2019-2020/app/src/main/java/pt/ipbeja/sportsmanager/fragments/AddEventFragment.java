@@ -4,10 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +18,6 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -34,18 +30,13 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -58,19 +49,18 @@ import pt.ipbeja.sportsmanager.activities.HomeActivity;
  * Add Event Fragment Class
  *
  * @author Hugo Silva - 16570
- * @version 2021-02-05
+ * @version 2021-02-07
  */
 public class AddEventFragment extends Fragment implements OnMapReadyCallback {
 
     private static final int PHOTO_REQUEST_CODE = 1001;
-
+    private FirebaseFirestore firebaseFirestore;
+    private DocumentReference ref;
     private Marker marker;
     private ImageView photoImageView;
     private Spinner spinner;
     private Bitmap photoBitmap;
-
-    FirebaseFirestore firebaseFirestore;
-    DocumentReference ref;
+    private String photoURL;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,7 +80,6 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -118,87 +107,93 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
             String category = spinner.getSelectedItem().toString();
 
             if (name.isEmpty() || date.isEmpty()
-                    || time.isEmpty() || category.isEmpty() || marker == null) {
+                    || time.isEmpty() || category.isEmpty()
+                    || this.marker == null || this.photoBitmap == null) {
                 Snackbar.make(nameInput, "Prencher campos", Snackbar.LENGTH_SHORT).show();
             } else {
                 LatLng latLng = marker.getPosition();
-                String filename = null;
+                String filename = UUID.randomUUID().toString() + ".jpg";
 
-                // Vamos converter um bitmap para bytes
+                // Convert bitmap to bytes
                 byte[] photoBytes = BitmapUtils.toBytes(this.photoBitmap);
-
                 if (photoBytes != null) {
                     // https://developer.android.com/training/data-storage
                     try {
                         StorageReference picRef = FirebaseStorage
                                 .getInstance()
                                 .getReference()
-                                .child("images");
-                        picRef.putBytes(photoBytes).addOnSuccessListener(taskSnapshot -> {
-                            System.out.println("success");
-                        }).addOnFailureListener(e -> {
-                            System.out.println("failed");
-                        });
+                                .child("images/" + filename);
+                        picRef.putBytes(photoBytes)
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        this.photoURL = task
+                                                .getResult()
+                                                .getUploadSessionUri()
+                                                .toString();
+                                        System.out.println(this.photoURL);
+                                    }
+                                })
+                                .addOnSuccessListener(taskSnapshot -> {
+                                    System.out.println("success");
+                                })
+                                .addOnFailureListener(e -> {
+                                    System.out.println("failed");
+                                });
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                this.ref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                this.ref.get().addOnSuccessListener(documentSnapshot -> {
 
-                        if (documentSnapshot.exists()) {
-                            Toast.makeText(
-                                    getActivity(),
-                                    "Event already exists",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Map<String, Object> reg_entry = new HashMap<>();
-                            reg_entry.put("name", name);
-                            reg_entry.put("date", date);
-                            reg_entry.put("time", time);
-                            reg_entry.put("latitude", latLng.latitude);
-                            reg_entry.put("longitude", latLng.longitude);
-                            reg_entry.put("category", category);
+                    if (documentSnapshot.exists()) {
+                        Toast.makeText(
+                                getActivity(),
+                                "Event already exists",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Map<String, Object> reg_entry = new HashMap<>();
+                        reg_entry.put("name", name);
+                        reg_entry.put("date", date);
+                        reg_entry.put("time", time);
+                        reg_entry.put("latitude", latLng.latitude);
+                        reg_entry.put("longitude", latLng.longitude);
+                        reg_entry.put("category", category);
 
-                            //   String myId = ref.getId();
-                            firebaseFirestore.collection("events")
-                                    .add(reg_entry)
-                                    .addOnSuccessListener(documentReference -> {
-                                        Snackbar.make(
-                                                view,
-                                                "Adicionado com sucesso",
-                                                Snackbar.LENGTH_SHORT).show();
-                                        getActivity()
-                                                .getSupportFragmentManager()
-                                                .beginTransaction()
-                                                .replace(
-                                                        R.id.frg_space,
-                                                        new EventsFragment()).commit();
-                                    })
-                                    .addOnFailureListener(e -> Log.d("Error", e.getMessage()));
-                        }
+                        //   String myId = ref.getId();
+                        firebaseFirestore.collection("events")
+                                .add(reg_entry)
+                                .addOnSuccessListener(documentReference -> {
+                                    Snackbar.make(
+                                            view,
+                                            "Adicionado com sucesso",
+                                            Snackbar.LENGTH_SHORT).show();
+                                    getActivity()
+                                            .getSupportFragmentManager()
+                                            .beginTransaction()
+                                            .replace(
+                                                    R.id.frg_space,
+                                                    new EventsFragment()).commit();
+                                })
+                                .addOnFailureListener(e -> Log.d("Error", e.getMessage()));
                     }
                 });
             }
         });
-
         this.photoImageView.setOnClickListener(v -> takePhoto());
-
         return view;
     }
-
 
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, PHOTO_REQUEST_CODE);
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == PHOTO_REQUEST_CODE
-                && resultCode == getActivity().RESULT_OK && data != null) {
+                && resultCode == getActivity().RESULT_OK
+                && data != null) {
             this.photoBitmap = data.getParcelableExtra("data");
             photoImageView.setImageBitmap(photoBitmap);
         } else super.onActivityResult(requestCode, resultCode, data);

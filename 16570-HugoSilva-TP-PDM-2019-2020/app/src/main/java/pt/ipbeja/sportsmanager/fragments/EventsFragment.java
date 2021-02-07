@@ -25,7 +25,6 @@ import com.google.firebase.firestore.Query;
 import pt.ipbeja.sportsmanager.R;
 import pt.ipbeja.sportsmanager.data.Event;
 
-
 /**
  * Events Fragment Class
  *
@@ -112,6 +111,18 @@ public class EventsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
+
     private class EventViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;
@@ -138,17 +149,5 @@ public class EventsFragment extends Fragment {
                         .commit();
             });
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        adapter.startListening();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        adapter.stopListening();
     }
 }

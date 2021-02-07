@@ -29,8 +29,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
 
-    FirebaseAuth firebaseAuth;
-    double[] coords = new double[2];
+    private FirebaseAuth firebaseAuth;
+    private double[] coordinates = new double[2];
 
     BottomNavigationView navigation;
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener = menuItem -> {
@@ -102,6 +102,10 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get current user location
+     * @return user location
+     */
     public double[] getCurrentLocation() {
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(10000);
@@ -126,13 +130,13 @@ public class HomeActivity extends AppCompatActivity {
                                 .removeLocationUpdates(this);
                         if (locationRequest != null && locationResult.getLocations().size() > 0) {
                             int latestLocationIndex = locationResult.getLocations().size() - 1;
-                            coords[0] =
+                            coordinates[0] =
                                     locationResult.getLocations().get(latestLocationIndex).getLatitude();
-                            coords[1] =
+                            coordinates[1] =
                                     locationResult.getLocations().get(latestLocationIndex).getLongitude();
                         }
                     }
                 }, Looper.getMainLooper());
-        return this.coords;
+        return this.coordinates;
     }
 }
