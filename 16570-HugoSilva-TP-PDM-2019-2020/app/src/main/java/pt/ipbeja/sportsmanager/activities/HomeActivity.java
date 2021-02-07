@@ -20,7 +20,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.List;
+
 import pt.ipbeja.sportsmanager.R;
+import pt.ipbeja.sportsmanager.data.Event;
 import pt.ipbeja.sportsmanager.fragments.EventsFragment;
 import pt.ipbeja.sportsmanager.fragments.MapFragment;
 import pt.ipbeja.sportsmanager.fragments.ProfileFragment;

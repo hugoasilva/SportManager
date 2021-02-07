@@ -140,12 +140,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                     doc.getDouble("latitude"),
                                     doc.getDouble("longitude"));
                             this.eventList.add(new Event(
-                                    R.drawable.ic_handball,
                                     doc.getString("name"),
                                     position,
                                     doc.getString("date"),
                                     doc.getString("time"),
-                                    doc.getString("category")
+                                    doc.getString("category"),
+                                     doc.getString("image")
                             ));
                         }
                         if (mapFragment != null) {

@@ -1,20 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/background_light">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".fragments.AddEventFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="?attr/colorPrimary"
-        android:text="@string/details"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+<fragment
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    app:layout_constraintDimensionRatio="3:3"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:context=".MapsActivity" />
 
-    <TextView
-        android:id="@+id/location_text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</RelativeLayout>
+<!--<com.google.android.material.textfield.TextInputLayout-->
+<!--    android:id="@+id/textInputLayout"-->
+<!--    android:layout_width="0dp"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_marginStart="16dp"-->
+<!--    android:layout_marginEnd="16dp"-->
+<!--    app:layout_constraintBottom_toBottomOf="@+id/event_photo"-->
+<!--    app:layout_constraintEnd_toEndOf="parent"-->
+<!--    app:layout_constraintHorizontal_bias="0.5"-->
+<!--    app:layout_constraintStart_toEndOf="@+id/event_photo"-->
+<!--    app:layout_constraintTop_toTopOf="@+id/event_photo"-->
+<!--    app:layout_constraintVertical_chainStyle="packed">-->
+
+<!--    <com.google.android.material.textfield.TextInputEditText-->
+<!--        android:id="@+id/event_name_input"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="@string/event" />-->
+<!--</com.google.android.material.textfield.TextInputLayout>-->
+
+<!--<com.google.android.material.textfield.TextInputEditText-->
+<!--    android:id="@+id/event_date_input"-->
+<!--    android:layout_width="100dp"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_marginStart="15dp"-->
+<!--    android:layout_marginTop="15dp"-->
+<!--    android:layout_marginEnd="13dp"-->
+<!--    android:layout_marginBottom="7dp"-->
+<!--    android:hint="@string/date"-->
+<!--    app:layout_constraintBottom_toTopOf="@+id/spinner"-->
+<!--    app:layout_constraintEnd_toStartOf="@+id/event_time_input"-->
+<!--    app:layout_constraintHorizontal_bias="0.559"-->
+<!--    app:layout_constraintStart_toStartOf="parent"-->
+<!--    app:layout_constraintTop_toBottomOf="@+id/event_photo"-->
+<!--    app:layout_constraintVertical_bias="0.0" />-->
+
+<!--<com.google.android.material.textfield.TextInputEditText-->
+<!--    android:id="@+id/event_time_input"-->
+<!--    android:layout_width="100dp"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_marginTop="20dp"-->
+<!--    android:layout_marginEnd="124dp"-->
+<!--    android:layout_marginBottom="6dp"-->
+<!--    android:hint="@string/time"-->
+<!--    app:layout_constraintBottom_toTopOf="@+id/spinner"-->
+<!--    app:layout_constraintEnd_toEndOf="parent"-->
+<!--    app:layout_constraintTop_toBottomOf="@+id/textInputLayout"-->
+<!--    app:layout_constraintVertical_bias="0.0" />-->
+
+<!--<com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--    android:id="@+id/add_event_btn"-->
+<!--    android:layout_width="54dp"-->
+<!--    android:layout_height="54dp"-->
+<!--    android:layout_gravity="end"-->
+<!--    android:layout_marginEnd="36dp"-->
+<!--    android:layout_marginBottom="36dp"-->
+<!--    android:backgroundTint="@color/greenSecondary"-->
+<!--    android:contentDescription="@string/add_event"-->
+<!--    android:src="@drawable/ic_add"-->
+<!--    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--    app:layout_constraintRight_toRightOf="parent"-->
+<!--    app:maxImageSize="36dp" />-->
+
+<!--<ImageView-->
+<!--    android:id="@+id/event_photo"-->
+<!--    android:layout_width="80dp"-->
+<!--    android:layout_height="69dp"-->
+<!--    android:layout_marginStart="16dp"-->
+<!--    android:layout_marginTop="16dp"-->
+<!--    android:scaleType="centerCrop"-->
+<!--    android:src="@drawable/ic_add_photo"-->
+<!--    app:layout_constraintDimensionRatio="1:1"-->
+<!--    app:layout_constraintStart_toStartOf="parent"-->
+<!--    app:layout_constraintTop_toBottomOf="@+id/map" />-->
+
+<!--<Spinner-->
+<!--    android:id="@+id/spinner"-->
+<!--    android:layout_width="200dp"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_marginTop="100dp"-->
+<!--    android:layout_marginBottom="29dp"-->
+<!--    android:entries="@array/sports"-->
+<!--    android:tooltipText="@string/sport"-->
+<!--    app:layout_constraintBottom_toTopOf="@+id/add_event_btn"-->
+<!--    app:layout_constraintEnd_toEndOf="parent"-->
+<!--    app:layout_constraintHorizontal_bias="0.175"-->
+<!--    app:layout_constraintStart_toStartOf="parent"-->
+<!--    app:layout_constraintTop_toBottomOf="@+id/event_photo"-->
+<!--    tools:listitem="@android:layout/simple_spinner_item" />-->
+</androidx.constraintlayout.widget.ConstraintLayout>

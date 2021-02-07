@@ -52,7 +52,6 @@ import pt.ipbeja.sportsmanager.activities.HomeActivity;
  * @version 2021-02-07
  */
 public class AddEventFragment extends Fragment implements OnMapReadyCallback {
-
     private static final int PHOTO_REQUEST_CODE = 1001;
     private FirebaseFirestore firebaseFirestore;
     private DocumentReference ref;
@@ -105,6 +104,7 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
             String date = dateInput.getText().toString();
             String time = timeInput.getText().toString();
             String category = spinner.getSelectedItem().toString();
+            String filename = UUID.randomUUID().toString() + ".jpg";
 
             if (name.isEmpty() || date.isEmpty()
                     || time.isEmpty() || category.isEmpty()
@@ -112,7 +112,6 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
                 Snackbar.make(nameInput, "Prencher campos", Snackbar.LENGTH_SHORT).show();
             } else {
                 LatLng latLng = marker.getPosition();
-                String filename = UUID.randomUUID().toString() + ".jpg";
 
                 // Convert bitmap to bytes
                 byte[] photoBytes = BitmapUtils.toBytes(this.photoBitmap);
@@ -159,6 +158,7 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
                         reg_entry.put("latitude", latLng.latitude);
                         reg_entry.put("longitude", latLng.longitude);
                         reg_entry.put("category", category);
+                        reg_entry.put("image", filename);
 
                         //   String myId = ref.getId();
                         firebaseFirestore.collection("events")
@@ -184,6 +184,9 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
+    /**
+     * Start take photo intent
+     */
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, PHOTO_REQUEST_CODE);

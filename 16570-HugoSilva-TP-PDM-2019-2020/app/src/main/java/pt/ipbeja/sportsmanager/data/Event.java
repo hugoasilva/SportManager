@@ -10,12 +10,12 @@ import java.util.Objects;
  */
 public class Event {
     //    private int id;
-    private int icon;
     private String name;
     private Position position;
     private String date;
     private String time;
     private String category;
+    private String image;
 
     /**
      * Event object constructor(firebase)
@@ -26,38 +26,22 @@ public class Event {
     /**
      * Event object constructor
      *
-     * @param icon     event's icon
      * @param name     event's name
      * @param position event's position
      * @param date     event's date
      * @param time     event's time
      * @param category event's category
+     * @param image    event's image
      */
-    public Event(int icon, String name, Position position,
-                 String date, String time, String category) {
+    public Event(String name, Position position,
+                 String date, String time, String category, String image) {
 //        this.id = id;
-        this.icon = icon;
         this.name = name;
         this.position = position;
         this.date = date;
         this.time = time;
         this.category = category;
-    }
-
-    /**
-     * Get event icon
-     *
-     * @return event icon
-     */
-    public int getIcon() {
-        return this.icon;
-    }
-
-    /**
-     * Set event icon
-     */
-    public void setIcon(int icon) {
-        this.icon = icon;
+        this.image = image;
     }
 
     /**
@@ -139,6 +123,22 @@ public class Event {
      */
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    /**
+     * Get event image
+     *
+     * @return event image
+     */
+    public String getImage() {
+        return this.image;
+    }
+
+    /**
+     * Set event image
+     */
+    public void setImage(String image) {
+        this.image = image;
     }
 
     /**

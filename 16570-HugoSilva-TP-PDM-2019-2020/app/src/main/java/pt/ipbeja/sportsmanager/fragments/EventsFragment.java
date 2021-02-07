@@ -85,12 +85,15 @@ public class EventsFragment extends Fragment {
                                             int position, @NonNull Event model) {
                 int icon = 0;
                 switch (model.getCategory()) {
+                    case "Basquetebol":
                     case "Basketball":
                         icon = R.drawable.ic_basketball;
                         break;
+                    case "Futebol":
                     case "Football":
                         icon = R.drawable.ic_baseball;
                         break;
+                    case "Andebol":
                     case "Handball":
                         icon = R.drawable.ic_handball;
                         break;
@@ -123,6 +126,9 @@ public class EventsFragment extends Fragment {
         adapter.stopListening();
     }
 
+    /**
+     * Event view holder inner class
+     */
     private class EventViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;
