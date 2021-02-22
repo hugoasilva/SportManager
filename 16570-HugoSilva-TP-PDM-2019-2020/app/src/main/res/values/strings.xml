@@ -26,6 +26,7 @@
     <string name="take_picture">Take picture</string>
     <string name="choose_picture">Choose from gallery</string>
     <string name="cancel">Cancel </string>
+    <string name="logout">Logout </string>
 
     <string-array name="sports">
         <item>Basketball</item>

@@ -22,10 +22,9 @@ import java.util.Objects;
  * Event Class
  *
  * @author Hugo Silva - 16570
- * @version 2021-02-05
+ * @version 2021-02-22
  */
 public class Event {
-    //    private int id;
     private String name;
     private Position position;
     private String date;
@@ -51,7 +50,6 @@ public class Event {
      */
     public Event(String name, Position position,
                  String date, String time, String category, String image) {
-//        this.id = id;
         this.name = name;
         this.position = position;
         this.date = date;
@@ -61,7 +59,7 @@ public class Event {
     }
 
     /**
-     * Get event name
+     * Gets event name
      *
      * @return event name
      */
@@ -70,14 +68,14 @@ public class Event {
     }
 
     /**
-     * Set event name
+     * Sets event name
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Get event position
+     * Gets event position
      *
      * @return event position
      */
@@ -86,14 +84,14 @@ public class Event {
     }
 
     /**
-     * Set event position
+     * Sets event position
      */
     public void setPosition(Position position) {
         this.position = position;
     }
 
     /**
-     * Get event date
+     * Gets event date
      *
      * @return event date
      */
@@ -102,7 +100,7 @@ public class Event {
     }
 
     /**
-     * Set event date
+     * Sets event date
      */
     public void setDate(String date) {
         this.date = date;
@@ -110,7 +108,7 @@ public class Event {
 
 
     /**
-     * Get event time
+     * Gets event time
      *
      * @return event time
      */
@@ -119,14 +117,14 @@ public class Event {
     }
 
     /**
-     * Set event time
+     * Sets event time
      */
     public void setTime(String time) {
         this.time = time;
     }
 
     /**
-     * Get event category
+     * Gets event category
      *
      * @return event category
      */
@@ -135,14 +133,14 @@ public class Event {
     }
 
     /**
-     * Set event category
+     * Sets event category
      */
     public void setCategory(String category) {
         this.category = category;
     }
 
     /**
-     * Get event image
+     * Gets event image
      *
      * @return event image
      */
@@ -151,14 +149,14 @@ public class Event {
     }
 
     /**
-     * Set event image
+     * Sets event image
      */
     public void setImage(String image) {
         this.image = image;
     }
 
     /**
-     * Get event as String object
+     * Gets event as String object
      *
      * @return event as String
      */
@@ -174,7 +172,7 @@ public class Event {
     }
 
     /**
-     * Get event hash code
+     * Gets event hash code
      *
      * @return event hash code
      */

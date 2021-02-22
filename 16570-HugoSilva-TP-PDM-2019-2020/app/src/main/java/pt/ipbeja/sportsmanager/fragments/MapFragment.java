@@ -41,13 +41,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import pt.ipbeja.sportsmanager.R;
 import pt.ipbeja.sportsmanager.activities.HomeActivity;
 import pt.ipbeja.sportsmanager.data.Event;
 import pt.ipbeja.sportsmanager.data.Position;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Map Fragment Class
@@ -56,11 +56,11 @@ import pt.ipbeja.sportsmanager.data.Position;
  * @version 2021-02-22
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
-    private final List<Event> eventList = new ArrayList<>();
+    private final List<Event> EVENT_LIST = new ArrayList<>();
     private FirebaseFirestore firebaseFirestore;
 
     /**
-     * When creating fragment
+     * Creates fragment
      *
      * @param savedInstanceState bundle object
      */
@@ -69,7 +69,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
 
         // This callback will only be called when MyFragment is at least Started.
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 getActivity()
@@ -83,7 +83,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     /**
-     * When map is ready
+     * Setups map
      *
      * @param googleMap map object
      */
@@ -116,7 +116,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Location currentLocation = new Location("");
         currentLocation.setLatitude(userLocation.latitude);
         currentLocation.setLongitude(userLocation.longitude);
-        for (Event event : this.eventList) {
+        for (Event event : this.EVENT_LIST) {
             double latitude = event.getPosition().getLatitude();
             double longitude = event.getPosition().getLongitude();
             Location eventLocation = new Location("");
@@ -142,7 +142,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     /**
-     * When creating view
+     * Creates view
      *
      * @param inflater           layout inflater object
      * @param container          view group object
@@ -159,7 +159,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     /**
-     * When view is created
+     * Setups interface
      *
      * @param view               view object
      * @param savedInstanceState bundle object
@@ -178,7 +178,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             Position position = new Position(
                                     doc.getDouble("latitude"),
                                     doc.getDouble("longitude"));
-                            this.eventList.add(new Event(
+                            this.EVENT_LIST.add(new Event(
                                     doc.getString("name"),
                                     position,
                                     doc.getString("date"),

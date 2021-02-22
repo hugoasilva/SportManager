@@ -22,7 +22,7 @@ import java.util.Objects;
  * Position Class
  *
  * @author Hugo Silva - 16570
- * @version 2021-02-05
+ * @version 2021-02-22
  */
 public class Position {
     private double latitude;
@@ -40,7 +40,7 @@ public class Position {
     }
 
     /**
-     * Get position latitude
+     * Gets position latitude
      *
      * @return position latitude
      */
@@ -49,14 +49,14 @@ public class Position {
     }
 
     /**
-     * Set position latitude
+     * Sets position latitude
      */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
     /**
-     * Get position longitude
+     * Gets position longitude
      *
      * @return position longitude
      */
@@ -65,14 +65,14 @@ public class Position {
     }
 
     /**
-     * Set position longitude
+     * Sets position longitude
      */
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
     /**
-     * Get position as String object
+     * Gets position as String object
      *
      * @return position as String
      */
@@ -85,7 +85,7 @@ public class Position {
     }
 
     /**
-     * Compare position
+     * Compares position
      *
      * @param object object to compare
      * @return true if same position, false otherwise
@@ -100,7 +100,7 @@ public class Position {
     }
 
     /**
-     * Get position hash code
+     * Gets position hash code
      *
      * @return position hash code
      */

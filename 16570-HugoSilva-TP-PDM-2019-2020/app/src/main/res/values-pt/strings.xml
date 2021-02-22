@@ -26,6 +26,7 @@
     <string name="take_picture">Tirar foto</string>
     <string name="choose_picture">Escolher da galeria</string>
     <string name="cancel">Cancelar</string>
+    <string name="logout">Sair</string>
 
     <string-array name="sports">
         <item>Basquetebol</item>

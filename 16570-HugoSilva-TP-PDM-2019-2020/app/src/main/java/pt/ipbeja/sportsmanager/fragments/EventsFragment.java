@@ -16,7 +16,6 @@
 
 package pt.ipbeja.sportsmanager.fragments;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +26,6 @@ import android.widget.TextView;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,7 +51,7 @@ public class EventsFragment extends Fragment {
     private FirestoreRecyclerAdapter adapter;
 
     /**
-     * When creating fragment
+     * Creates fragment
      *
      * @param savedInstanceState bundle object
      */
@@ -62,7 +60,7 @@ public class EventsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         // This callback will only be called when MyFragment is at least Started.
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 getActivity().moveTaskToBack(true);
@@ -72,7 +70,7 @@ public class EventsFragment extends Fragment {
     }
 
     /**
-     * When creating view
+     * Creates view
      *
      * @param inflater           layout inflater object
      * @param container          view group object
@@ -140,7 +138,7 @@ public class EventsFragment extends Fragment {
     }
 
     /**
-     * On adapter listening start
+     * Listens to adapter start
      */
     @Override
     public void onStart() {
@@ -149,7 +147,7 @@ public class EventsFragment extends Fragment {
     }
 
     /**
-     * On adapter listening stop
+     * Listens to adapter stop
      */
     @Override
     public void onStop() {
@@ -168,6 +166,7 @@ public class EventsFragment extends Fragment {
 
         /**
          * Constructor
+         *
          * @param itemView item in list
          */
         public EventViewHolder(@NonNull View itemView) {

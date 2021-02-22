@@ -47,6 +47,11 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private SignInButton signInGoogleButton;
 
+    /**
+     * Creates activity
+     *
+     * @param savedInstanceState bundle object
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,11 +62,11 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.btn_sign_in);
         registerButton = findViewById(R.id.btn_sign_up);
         signInGoogleButton = findViewById(R.id.sign_in_google);
-//        forgotButton = findViewById(R.id.btn_forgot);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(
+                GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
@@ -77,10 +82,12 @@ public class LoginActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                startActivity(
+                                        new Intent(getApplicationContext(), HomeActivity.class));
                             } else {
                                 // If sign in fails, display a message to the user.
-                                Toast.makeText(LoginActivity.this, "Erro ao iniciar sessão.",
+                                Toast.makeText(
+                                        LoginActivity.this, "Erro ao iniciar sessão.",
                                         Toast.LENGTH_SHORT).show();
                             }
                         }));
@@ -92,14 +99,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Sign in with Google account
+     * Starts sign in with Google account intent
      */
     private void signInGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-
     }
 
+    /**
+     * Returns the activity result
+     *
+     * @param requestCode request code
+     * @param resultCode  result code
+     * @param data        intent data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -113,14 +126,18 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Toast.makeText(LoginActivity.this, "Erro ao iniciar sessão com o Google.",
+                Toast.makeText(LoginActivity.this,
+                        "Erro ao iniciar sessão com o Google.",
                         Toast.LENGTH_SHORT).show();
-                // ...
             }
         }
     }
 
-
+    /**
+     * Signs in with google account
+     *
+     * @param idToken token
+     */
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         firebaseAuth.signInWithCredential(credential)

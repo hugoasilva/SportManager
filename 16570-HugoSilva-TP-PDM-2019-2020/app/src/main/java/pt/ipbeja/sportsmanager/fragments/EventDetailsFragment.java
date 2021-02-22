@@ -39,18 +39,17 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import pt.ipbeja.sportsmanager.R;
 import pt.ipbeja.sportsmanager.data.Event;
 import pt.ipbeja.sportsmanager.data.Position;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Event Details Fragment Class
@@ -61,7 +60,7 @@ import pt.ipbeja.sportsmanager.data.Position;
 public class EventDetailsFragment extends Fragment implements OnMapReadyCallback {
     private int eventNo;
     private Event event;
-    private final List<Event> eventList = new ArrayList<>();
+    private final List<Event> EVENT_LIST = new ArrayList<>();
     private FirebaseFirestore firebaseFirestore;
     private ImageView eventPhoto;
     private TextView nameView;
@@ -70,7 +69,7 @@ public class EventDetailsFragment extends Fragment implements OnMapReadyCallback
     private boolean isImageFitToScreen;
 
     /**
-     * When creating fragment
+     * Creates fragment
      *
      * @param savedInstanceState bundle object
      */
@@ -79,7 +78,7 @@ public class EventDetailsFragment extends Fragment implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
 
         // This callback will only be called when MyFragment is at least Started.
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 getActivity()
@@ -93,7 +92,7 @@ public class EventDetailsFragment extends Fragment implements OnMapReadyCallback
     }
 
     /**
-     * When creating view
+     * Creates view
      *
      * @param inflater           layout inflater object
      * @param container          view group object
@@ -110,7 +109,6 @@ public class EventDetailsFragment extends Fragment implements OnMapReadyCallback
         this.dateView = view.findViewById(R.id.date_view);
         this.timeView = view.findViewById(R.id.time_view);
         this.eventPhoto = view.findViewById(R.id.event_photo);
-//        TextView textView = view.findViewById(R.id.location_text);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             this.eventNo = bundle.getInt("key");
@@ -144,7 +142,7 @@ public class EventDetailsFragment extends Fragment implements OnMapReadyCallback
     }
 
     /**
-     * When map is ready
+     * Setups map
      *
      * @param googleMap map object
      */
@@ -159,7 +157,7 @@ public class EventDetailsFragment extends Fragment implements OnMapReadyCallback
                             Position position = new Position(
                                     doc.getDouble("latitude"),
                                     doc.getDouble("longitude"));
-                            this.eventList.add(new Event(
+                            this.EVENT_LIST.add(new Event(
                                     doc.getString("name"),
                                     position,
                                     doc.getString("date"),
@@ -168,7 +166,7 @@ public class EventDetailsFragment extends Fragment implements OnMapReadyCallback
                                     doc.getString("image")
                             ));
                         }
-                        this.event = this.eventList.get(this.eventNo);
+                        this.event = this.EVENT_LIST.get(this.eventNo);
 
                         // Create a storage reference from our app
                         StorageReference storageRef = FirebaseStorage
@@ -184,7 +182,8 @@ public class EventDetailsFragment extends Fragment implements OnMapReadyCallback
                                     @Override
                                     public void onSuccess(byte[] bytes) {
                                         Bitmap bitmap =
-                                                BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                BitmapFactory.decodeByteArray(bytes,
+                                                        0, bytes.length);
                                         eventPhoto.setImageBitmap(bitmap);
 
                                     }
@@ -192,7 +191,7 @@ public class EventDetailsFragment extends Fragment implements OnMapReadyCallback
                         this.nameView.append(" " + this.event.getName());
                         this.dateView.append(" " + this.event.getDate());
                         this.timeView.append(" " + this.event.getTime());
-                        Event event = eventList.get(this.eventNo);
+                        Event event = EVENT_LIST.get(this.eventNo);
                         LatLng eventLocation = new LatLng(
                                 event.getPosition().getLatitude(),
                                 event.getPosition().getLongitude()
@@ -208,13 +207,14 @@ public class EventDetailsFragment extends Fragment implements OnMapReadyCallback
                                         .position(eventLocation)
                                         .title(event.getName())
                                         .snippet(event.getDate() + " " + event.getTime()));
-                        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                        googleMap.animateCamera(
+                                CameraUpdateFactory.newCameraPosition(cameraPosition));
                     }
                 });
     }
 
     /**
-     * When view is created
+     * Creates map
      *
      * @param view               view object
      * @param savedInstanceState bundle object

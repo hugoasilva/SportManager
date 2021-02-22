@@ -58,18 +58,24 @@ public class HomeActivity extends AppCompatActivity {
                 break;
             case R.id.nav_map:
                 menuItem.setChecked(true);
-                // TODO CREATE LOGOUT
-//                FirebaseAuth.getInstance().signOut();
                 selectedFragment = new MapFragment();
                 break;
+            case R.id.logout:
+                menuItem.setChecked(true);
+                FirebaseAuth.getInstance().signOut();
+                break;
         }
-
         getSupportFragmentManager().beginTransaction().replace(R.id.frg_space,
                 selectedFragment).commit();
 
         return false;
     };
 
+    /**
+     * Creates Activity
+     *
+     * @param savedInstanceState bundle object
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,8 +107,17 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Requests user for permissions
+     *
+     * @param requestCode  request code
+     * @param permissions  permission to request
+     * @param grantResults permission granted results
+     */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length > 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -114,7 +129,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     /**
-     * Get current user location
+     * Gets current user location
+     *
      * @return user location
      */
     public double[] getCurrentLocation() {
@@ -123,14 +139,11 @@ public class HomeActivity extends AppCompatActivity {
         locationRequest.setFastestInterval(3000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(
+                        this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
         }
         LocationServices.getFusedLocationProviderClient(HomeActivity.this)
                 .requestLocationUpdates(locationRequest, new LocationCallback() {
@@ -142,9 +155,11 @@ public class HomeActivity extends AppCompatActivity {
                         if (locationRequest != null && locationResult.getLocations().size() > 0) {
                             int latestLocationIndex = locationResult.getLocations().size() - 1;
                             coordinates[0] =
-                                    locationResult.getLocations().get(latestLocationIndex).getLatitude();
+                                    locationResult.getLocations()
+                                            .get(latestLocationIndex).getLatitude();
                             coordinates[1] =
-                                    locationResult.getLocations().get(latestLocationIndex).getLongitude();
+                                    locationResult.getLocations()
+                                            .get(latestLocationIndex).getLongitude();
                         }
                     }
                 }, Looper.getMainLooper());

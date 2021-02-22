@@ -18,7 +18,6 @@ package pt.ipbeja.sportsmanager.fragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -59,14 +58,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import pt.ipbeja.sportsmanager.BitmapUtils;
+import pt.ipbeja.sportsmanager.R;
+import pt.ipbeja.sportsmanager.activities.HomeActivity;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import pt.ipbeja.sportsmanager.BitmapUtils;
-import pt.ipbeja.sportsmanager.R;
-import pt.ipbeja.sportsmanager.activities.HomeActivity;
 
 /**
  * Add Event Fragment Class
@@ -86,7 +85,7 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
     private String photoURL;
 
     /**
-     * When creating fragment
+     * Creates fragment
      *
      * @param savedInstanceState bundle object
      */
@@ -95,7 +94,7 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
 
         // This callback will only be called when MyFragment is at least Started.
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 getActivity()
@@ -109,7 +108,7 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
     }
 
     /**
-     * When creating view
+     * Creates view
      *
      * @param inflater           layout inflater object
      * @param container          view group object
@@ -221,7 +220,7 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
     }
 
     /**
-     * Show choose photo from gallery or camera dialog
+     * Shows choose photo from gallery or camera dialog
      */
     private void getPhoto() {
         final CharSequence[] items = {
@@ -244,31 +243,25 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
 
 
         builder.setCustomTitle(title);
-
-        // builder.setTitle("Add Photo!");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (items[item].equals("Take picture")
-                        || items[item].equals("Tirar foto")) {
-                    // Start take photo intent
-                    takePhoto();
-                } else if (items[item].equals("Choose from gallery")
-                        || items[item].equals("Escolher da galeria")) {
-                    // Start choose picture from gallery intent
-                    selectFromGallery();
-                } else if (items[item].equals("Cancel")
-                        || items[item].equals("Cancelar")) {
-                    dialog.dismiss();
-                }
+        builder.setItems(items, (dialog, item) -> {
+            if (items[item].equals("Take picture")
+                    || items[item].equals("Tirar foto")) {
+                // Start take photo intent
+                takePhoto();
+            } else if (items[item].equals("Choose from gallery")
+                    || items[item].equals("Escolher da galeria")) {
+                // Start choose picture from gallery intent
+                selectFromGallery();
+            } else if (items[item].equals("Cancel")
+                    || items[item].equals("Cancelar")) {
+                dialog.dismiss();
             }
         });
         builder.show();
     }
 
     /**
-     * Start take photo intent
+     * Starts take photo intent
      */
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -276,7 +269,7 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
     }
 
     /**
-     * Start select photo from gallery intent
+     * Starts select photo from gallery intent
      */
     private void selectFromGallery() {
         Intent intent = new Intent();
@@ -290,7 +283,7 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
     }
 
     /**
-     * When picture activity is successful
+     * Gets picture activity result
      *
      * @param requestCode request code
      * @param resultCode  result code
@@ -318,12 +311,11 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
                 }
                 this.photoImageView.setImageURI(selectedImageUri);
             }
-        }
-        else super.onActivityResult(requestCode, resultCode, data);
+        } else super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
-     * When map is ready
+     * Setups maps
      *
      * @param googleMap map object
      */
@@ -367,7 +359,7 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
     }
 
     /**
-     * When view is created
+     * Creates map
      *
      * @param view               view object
      * @param savedInstanceState bundle object
