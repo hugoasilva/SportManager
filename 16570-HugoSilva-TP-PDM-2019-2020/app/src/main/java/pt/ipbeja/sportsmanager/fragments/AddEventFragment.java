@@ -1,18 +1,40 @@
+/*
+ * Copyright 2021 Hugo Silva @ IPBeja
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package pt.ipbeja.sportsmanager.fragments;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -37,6 +59,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -53,6 +76,7 @@ import pt.ipbeja.sportsmanager.activities.HomeActivity;
  */
 public class AddEventFragment extends Fragment implements OnMapReadyCallback {
     private static final int PHOTO_REQUEST_CODE = 1001;
+    private static final int PICK_IMAGE_REQUEST = 123;
     private FirebaseFirestore firebaseFirestore;
     private DocumentReference ref;
     private Marker marker;
@@ -129,7 +153,6 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
                 // Convert bitmap to bytes
                 byte[] photoBytes = BitmapUtils.toBytes(this.photoBitmap);
                 if (photoBytes != null) {
-                    // https://developer.android.com/training/data-storage
                     try {
                         StorageReference picRef = FirebaseStorage
                                 .getInstance()
@@ -193,8 +216,55 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
                 });
             }
         });
-        this.photoImageView.setOnClickListener(v -> takePhoto());
+        this.photoImageView.setOnClickListener(v -> getPhoto());
         return view;
+    }
+
+    /**
+     * Show choose photo from gallery or camera dialog
+     */
+    private void getPhoto() {
+        final CharSequence[] items = {
+                this.getContext().getResources().getString(R.string.take_picture),
+                this.getContext().getResources().getString(R.string.choose_picture),
+                this.getContext().getResources().getString(R.string.cancel)
+        };
+
+        TextView title = new TextView(this.getContext());
+        title.setText(this.getContext().getResources().getString(R.string.add_photo));
+        title.setBackgroundColor(Color.BLACK);
+        title.setPadding(10, 15, 15, 10);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.WHITE);
+        title.setTextSize(22);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                this.getContext());
+
+
+        builder.setCustomTitle(title);
+
+        // builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("Take picture")
+                        || items[item].equals("Tirar foto")) {
+                    // Start take photo intent
+                    takePhoto();
+                } else if (items[item].equals("Choose from gallery")
+                        || items[item].equals("Escolher da galeria")) {
+                    // Start choose picture from gallery intent
+                    selectFromGallery();
+                } else if (items[item].equals("Cancel")
+                        || items[item].equals("Cancelar")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
     }
 
     /**
@@ -203,6 +273,20 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, PHOTO_REQUEST_CODE);
+    }
+
+    /**
+     * Start select photo from gallery intent
+     */
+    private void selectFromGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(
+                Intent.createChooser(
+                        intent,
+                        this.getContext().getResources().getString(R.string.choose_picture)),
+                PICK_IMAGE_REQUEST);
     }
 
     /**
@@ -218,8 +302,24 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
                 && resultCode == getActivity().RESULT_OK
                 && data != null) {
             this.photoBitmap = data.getParcelableExtra("data");
-            photoImageView.setImageBitmap(photoBitmap);
-        } else super.onActivityResult(requestCode, resultCode, data);
+            this.photoImageView.setImageBitmap(photoBitmap);
+        } else if (requestCode == PICK_IMAGE_REQUEST
+                && resultCode == getActivity().RESULT_OK
+                && data != null) {
+            Uri selectedImageUri = data.getData();
+            System.out.println(selectedImageUri);
+            if (selectedImageUri != null) {
+                // update the preview image in the layout
+                try {
+                    this.photoBitmap = MediaStore.Images.Media.getBitmap(
+                            this.getContext().getContentResolver(), selectedImageUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                this.photoImageView.setImageURI(selectedImageUri);
+            }
+        }
+        else super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**

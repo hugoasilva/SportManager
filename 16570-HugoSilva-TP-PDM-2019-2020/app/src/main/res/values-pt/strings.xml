@@ -19,6 +19,13 @@
     <string name="details">Detalhes</string>
     <string name="events_near_you">Eventos perto de si</string>
     <string name="profile">Pefil</string>
+    <string name="event_name">Nome do evento: </string>
+    <string name="event_date">Data do evento: </string>
+    <string name="event_time">Hora do evento: </string>
+    <string id="add" name="add_photo">Adicionar foto</string>
+    <string name="take_picture">Tirar foto</string>
+    <string name="choose_picture">Escolher da galeria</string>
+    <string name="cancel">Cancelar</string>
 
     <string-array name="sports">
         <item>Basquetebol</item>

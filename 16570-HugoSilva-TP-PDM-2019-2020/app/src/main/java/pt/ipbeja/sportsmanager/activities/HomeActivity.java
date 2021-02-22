@@ -1,3 +1,19 @@
+/*
+ * Copyright 2021 Hugo Silva @ IPBeja
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package pt.ipbeja.sportsmanager.activities;
 
 import android.Manifest;
@@ -20,13 +36,9 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.List;
-
 import pt.ipbeja.sportsmanager.R;
-import pt.ipbeja.sportsmanager.data.Event;
 import pt.ipbeja.sportsmanager.fragments.EventsFragment;
 import pt.ipbeja.sportsmanager.fragments.MapFragment;
-import pt.ipbeja.sportsmanager.fragments.ProfileFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -49,10 +61,6 @@ public class HomeActivity extends AppCompatActivity {
                 // TODO CREATE LOGOUT
 //                FirebaseAuth.getInstance().signOut();
                 selectedFragment = new MapFragment();
-                break;
-            case R.id.nav_bills:
-                menuItem.setChecked(true);
-                selectedFragment = new ProfileFragment();
                 break;
         }
 

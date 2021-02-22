@@ -19,7 +19,13 @@
     <string name="details">Details</string>
     <string name="events_near_you">Events near you</string>
     <string name="profile">Profile</string>
-
+    <string name="event_name">Event name: </string>
+    <string name="event_date">Event date: </string>
+    <string name="event_time">Event time: </string>
+    <string name="add_photo">Add photo </string>
+    <string name="take_picture">Take picture</string>
+    <string name="choose_picture">Choose from gallery</string>
+    <string name="cancel">Cancel </string>
 
     <string-array name="sports">
         <item>Basketball</item>
