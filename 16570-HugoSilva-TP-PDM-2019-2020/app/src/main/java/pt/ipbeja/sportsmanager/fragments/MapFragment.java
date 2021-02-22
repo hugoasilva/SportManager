@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -44,6 +43,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private final List<Event> eventList = new ArrayList<>();
     private FirebaseFirestore firebaseFirestore;
 
+    /**
+     * When creating fragment
+     *
+     * @param savedInstanceState bundle object
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +66,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
+    /**
+     * When map is ready
+     *
+     * @param googleMap map object
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -77,7 +86,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         } else {
             coords = ((HomeActivity) getActivity()).getCurrentLocation();
         }
-        Toast.makeText(getContext(), coords[0] + "", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), coords[0] + "", Toast.LENGTH_SHORT).show();
 
         LatLng userLocation = new LatLng(coords[0], coords[1]);
 
@@ -87,7 +96,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 .bearing(90)                // Sets the orientation of the camera to east
                 .tilt(30)                   // Sets the tilt of the camera to 30 degrees
                 .build();                   // Creates a CameraPosition from the builder
-        System.out.println("Tamanho: " + this.eventList.size());
+//        System.out.println("Tamanho: " + this.eventList.size());
         Location currentLocation = new Location("");
         currentLocation.setLatitude(userLocation.latitude);
         currentLocation.setLongitude(userLocation.longitude);
@@ -99,7 +108,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             eventLocation.setLongitude(longitude);
             float radius = (float) 50.0;
             float distance = eventLocation.distanceTo(currentLocation) / 1000;
-            System.out.println("Distancia: " + distance + " " + latitude);
+//            System.out.println("Distancia: " + distance + " " + latitude);
 
             if (distance < radius) {
                 System.out.println(event.getPosition().toString());
@@ -116,6 +125,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
+    /**
+     * When creating view
+     *
+     * @param inflater           layout inflater object
+     * @param container          view group object
+     * @param savedInstanceState bundle object
+     * @return view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -125,6 +142,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
+    /**
+     * When view is created
+     *
+     * @param view               view object
+     * @param savedInstanceState bundle object
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -145,7 +168,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                     doc.getString("date"),
                                     doc.getString("time"),
                                     doc.getString("category"),
-                                     doc.getString("image")
+                                    doc.getString("image")
                             ));
                         }
                         if (mapFragment != null) {

@@ -32,13 +32,15 @@ import pt.ipbeja.sportsmanager.data.Event;
  * @version 2021-02-06
  */
 public class EventsFragment extends Fragment {
-    private FirebaseFirestore firebaseFirestore;
     private RecyclerView eventRecyclerView;
-
-//    private ArrayList<Event> eventList = new ArrayList<>();
-
+    private FirebaseFirestore firebaseFirestore;
     private FirestoreRecyclerAdapter adapter;
 
+    /**
+     * When creating fragment
+     *
+     * @param savedInstanceState bundle object
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +55,14 @@ public class EventsFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    /**
+     * When creating view
+     *
+     * @param inflater           layout inflater object
+     * @param container          view group object
+     * @param savedInstanceState bundle object
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -114,16 +123,22 @@ public class EventsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * On adapter listening start
+     */
     @Override
     public void onStart() {
         super.onStart();
-        adapter.startListening();
+        this.adapter.startListening();
     }
 
+    /**
+     * On adapter listening stop
+     */
     @Override
     public void onStop() {
         super.onStop();
-        adapter.stopListening();
+        this.adapter.stopListening();
     }
 
     /**
@@ -135,6 +150,10 @@ public class EventsFragment extends Fragment {
         private TextView nameView;
         private TextView dateView;
 
+        /**
+         * Constructor
+         * @param itemView item in list
+         */
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view);

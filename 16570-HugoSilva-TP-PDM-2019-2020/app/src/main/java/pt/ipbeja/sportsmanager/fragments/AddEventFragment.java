@@ -49,7 +49,7 @@ import pt.ipbeja.sportsmanager.activities.HomeActivity;
  * Add Event Fragment Class
  *
  * @author Hugo Silva - 16570
- * @version 2021-02-07
+ * @version 2021-02-22
  */
 public class AddEventFragment extends Fragment implements OnMapReadyCallback {
     private static final int PHOTO_REQUEST_CODE = 1001;
@@ -61,6 +61,11 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
     private Bitmap photoBitmap;
     private String photoURL;
 
+    /**
+     * When creating fragment
+     *
+     * @param savedInstanceState bundle object
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +84,14 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
+    /**
+     * When creating view
+     *
+     * @param inflater           layout inflater object
+     * @param container          view group object
+     * @param savedInstanceState bundle object
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -192,6 +205,13 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
         startActivityForResult(intent, PHOTO_REQUEST_CODE);
     }
 
+    /**
+     * When picture activity is successful
+     *
+     * @param requestCode request code
+     * @param resultCode  result code
+     * @param data        data object
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == PHOTO_REQUEST_CODE
@@ -202,6 +222,11 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
         } else super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * When map is ready
+     *
+     * @param googleMap map object
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMap.setOnMapClickListener(latLng -> {
@@ -241,6 +266,12 @@ public class AddEventFragment extends Fragment implements OnMapReadyCallback {
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
+    /**
+     * When view is created
+     *
+     * @param view               view object
+     * @param savedInstanceState bundle object
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
